@@ -25,10 +25,10 @@ def icon(emoji: str):
 
 icon("🫂")
 st.markdown('<a href="https://visualverse.streamlit.app/" style="text-decoration:none; color: #00C6C3;"><h2>GroqVerse Mental Health Dynamics</h2></a>', unsafe_allow_html=True)
-st.subheader("Meet Your Mental Health Companion, Powered by Groq 🚀")
+st.subheader("Meet Your Mental Health Companion, Powered by Groq 🌿")
 
 # Add a picture with a caption
-st.image("images/WelcomeHometitle.png", caption="GroqVerse Mental Wellness", width=200)
+st.image("images/downloadedImage (6).png", caption="GroqVerse Mental Wellness", width=200)
 
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
