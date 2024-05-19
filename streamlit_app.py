@@ -17,7 +17,7 @@ system_prompt = _get_system_prompt()
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": system_prompt}]
 
-st.set_page_config(page_icon="👩🏽‍⚕️", layout="wide", page_title="GroqMind")
+st.set_page_config(page_icon="images/1920x1080bb-80.png", layout="wide", page_title="GroqMind")
 
 def icon(emoji: str):
     """Shows an emoji as a Notion-style page icon."""
