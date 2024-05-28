@@ -2,6 +2,7 @@ import streamlit as st
 from typing import Generator
 from groq import Groq
 import os
+import BeautifulSoup
 from typing import Optional, Dict, Union
 
 
