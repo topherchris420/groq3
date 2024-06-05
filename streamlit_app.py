@@ -17,7 +17,7 @@ system_prompt = _get_system_prompt()
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": system_prompt}]
 
-st.set_page_config(page_icon="images/1920x1080bb-80.png", layout="wide", page_title="DigiDopps™")
+st.set_page_config(page_icon="images/1920x1080bb-80.png", layout="wide", page_title="Vers3Dynamics")
 
 def icon(emoji: str):
     """Shows an emoji as a Notion-style page icon."""
@@ -28,7 +28,7 @@ st.markdown('<a href="https://visualverse.streamlit.app/" style="text-decoration
 st.subheader("Meet Your Mental Health Companion, Powered by Groq 🌿")
 
 # Add a picture with a caption
-st.image("images/downloadedImage (6).png", caption="Groqality is here. from Vers3Dynamics.", width=200)
+st.image("images/downloadedImage (6).png", caption="Groqality is here", width=200)
 
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
