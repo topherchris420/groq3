@@ -213,7 +213,7 @@ display_welcome_message()
 # Image and Caption with Error Handling
 try:
     if os.path.exists(IMAGE_PATH):
-        st.image(IMAGE_PATH, caption=IMAGE_CAPTION, width=500)
+        st.image(IMAGE_PATH, caption=IMAGE_CAPTION, width=300)
     else:
         st.warning(f"Image not found at: {IMAGE_PATH}")
 except Exception as e:
