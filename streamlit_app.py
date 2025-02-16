@@ -8,7 +8,7 @@ from typing import Optional, Dict, Union
 PAGE_TITLE = "Vers3Dynamics DigiDopps™"
 PAGE_ICON = "🫂"
 IMAGE_PATH = "images/downloadedImage (6).png"
-IMAGE_CAPTION = "Groqality is here"
+IMAGE_CAPTION = "Developed by Vers3Dynamics"
 DEFAULT_MODEL_INDEX = 2
 
 # --- Function to get system prompt ---
