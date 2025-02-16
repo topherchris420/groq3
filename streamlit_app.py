@@ -3,13 +3,23 @@ from typing import Generator
 from groq import Groq
 import os
 from typing import Optional, Dict, Union
+import random
 
 # --- Configuration ---
-PAGE_TITLE = "Vers3Dynamics DigiDopps™"
+PAGE_TITLE = "Speak with Mnemosyne"
 PAGE_ICON = "🫂"
 IMAGE_PATH = "images/downloadedImage (6).png"
 IMAGE_CAPTION = "Developed by Vers3Dynamics"
 DEFAULT_MODEL_INDEX = 2
+
+# Add animated loading messages
+LOADING_MESSAGES = [
+    "Thinking deeply about your question... 🤔",
+    "Processing with care... 💭",
+    "Analyzing your request... 📊",
+    "Crafting a thoughtful response... ✨",
+    "Computing with compassion... 💝"
+]
 
 # --- Function to get system prompt ---
 def _get_system_prompt() -> str:
@@ -32,154 +42,165 @@ if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": system_prompt}]
 if "selected_model" not in st.session_state:
     st.session_state.selected_model = None
+if "chat_counter" not in st.session_state:
+    st.session_state.chat_counter = 0
 
 # --- Page Configuration ---
 st.set_page_config(page_icon=PAGE_ICON, layout="wide", page_title=PAGE_TITLE)
 
-# --- UI Functions ---
-def icon(emoji: str):
-    """Shows an emoji as a Notion-style page icon."""
-    st.write(f'<span style="font-size: 78px; line-height: 1">{emoji}</span>', unsafe_allow_html=True)
-
-def clear_chat_history():
-    """Clears chat history and resets to the initial system message."""
-    system_prompt = _get_system_prompt()
-    st.session_state.messages = [{"role": "system", "content": system_prompt}]
-    st.session_state.full_response = ""
-
-# --- Model Definitions ---
-models = {
-    "gemma-7b-it": {"name": "Gemma-7b-it", "tokens": 8192, "developer": "Google"},
-    "llama2-70b-4096": {"name": "LLaMA2-70b-chat", "tokens": 4096, "developer": "Meta"},
-    "llama3-70b-8192": {"name": "LLaMA3-70b-8192", "tokens": 8192, "developer": "Meta"},
-    "llama3-8b-8192": {"name": "LLaMA3-8b-8192", "tokens": 8192, "developer": "Meta"},
-    "mixtral-8x7b-32768": {"name": "Mixtral-8x7b-Instruct-v0.1", "tokens": 32768, "developer": "Mistral"},
-}
-
-# --- Custom CSS ---
+# --- Custom CSS with Enhanced Styling ---
 st.markdown(
     """
 <style>
-    /* General app styling */
-    body {
-        background-color: #f4f4f4; /* Light grey background */
-        color: #333; /* Dark grey text */
-        font-family: 'Arial', sans-serif;
+    /* Modern App Styling */
+    .main {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+        padding: 2rem;
     }
-
-    h1, h2, h3, h4, h5, h6 {
-        color: #007BFF; /* Primary color for headers */
+    
+    /* Animated Header */
+    @keyframes gradient {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
     }
-
-    /* Header link styling */
-    h2 a {
-        color: #ADD8E6 !important; /* Light blue header link color */
-        text-decoration: none;
+    
+    .stApp > header {
+        background: linear-gradient(-45deg, #007BFF, #00A3FF, #00C6FF, #00E1FF);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        padding: 1rem;
+        border-radius: 0 0 20px 20px;
     }
-
-    /* Chat message styling */
+    
+    /* Enhanced Chat Messages */
     .stChatMessage {
-        border-radius: 15px;
-        padding: 15px;
-        margin-bottom: 10px;
-    }
-
-    .stChatMessage.user {
-        background-color: #DCF8C6; /* Light green for user messages */
-        color: #333;
-        text-align: right; /* Align user messages to the right */
-        margin-left: 20%; /* Push user messages to the right */
-    }
-
-    .stChatMessage.assistant {
-        background-color: #E6E6FA; /* Light lavender for assistant messages */
-        color: #333;
-        text-align: left; /* Align assistant messages to the left */
-        margin-right: 20%; /* Push assistant messages to the left */
-    }
-
-    /* Chat input styling */
-    .stTextInput > div > div > input {
         border-radius: 20px;
-        border: 2px solid #007BFF;
-        padding: 15px;
-        background-color: #f9f9f9;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
     }
-
-    /* Sidebar styling */
-    .stSidebar {
-        background-color: #f0f2f6; /* Light grey sidebar background */
-        padding: 20px;
-        border-radius: 10px;
+    
+    .stChatMessage:hover {
+        transform: translateY(-2px);
     }
-    .stSidebar h2, .stSidebar h3, .stSidebar h4, .stSidebar h5, .stSidebar h6, .stSidebar p, .stSidebar label {
-        color: #007BFF; /* Sidebar text color */
+    
+    .stChatMessage.user {
+        background: linear-gradient(135deg, #DCF8C6 0%, #B4E6A1 100%);
+        margin-left: 25%;
     }
-
-    /* Button styling */
+    
+    .stChatMessage.assistant {
+        background: linear-gradient(135deg, #E6E6FA 0%, #C5C5F5 100%);
+        margin-right: 25%;
+    }
+    
+    /* Animated Input Box */
+    .stTextInput > div > div > input {
+        border-radius: 25px;
+        border: 2px solid transparent;
+        background: linear-gradient(white, white) padding-box,
+                    linear-gradient(45deg, #007BFF, #00E1FF) border-box;
+        padding: 1rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .stTextInput > div > div > input:focus {
+        box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
+        transform: scale(1.01);
+    }
+    
+    /* Enhanced Sidebar */
+    .css-1d391kg {
+        background: linear-gradient(180deg, #f0f2f6 0%, #e6e9ef 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Glowing Buttons */
     div.stButton > button:first-child {
-        background-color: #007BFF;
+        background: linear-gradient(45deg, #007BFF, #00A3FF);
         color: white;
-        border-radius: 15px;
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
         border: none;
-        padding: 10px 20px;
-        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        transition: all 0.3s ease;
     }
+    
     div.stButton > button:first-child:hover {
-        background-color: #0056b3; /* Darker shade on hover */
-        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
     }
-
-    /* Selectbox styling */
-    .stSelectbox > div > div > div {
-        border-radius: 15px;
-        border: 1px solid #007BFF;
+    
+    /* Enhanced Slider */
+    .stSlider {
+        padding: 1rem 0;
     }
-
-    /* Slider styling */
+    
     .stSlider > div > div > div > div[data-baseweb="slider-thumb"] {
-        background-color: #007BFF;
+        background: linear-gradient(45deg, #007BFF, #00A3FF);
+        box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
     }
-    .stSlider > div > div > div > div[data-baseweb="slider-track"] {
-        background-color: #ADD8E6; /* Light blue track color */
+    
+    /* Progress Animation */
+    @keyframes pulse {
+        0% {opacity: 0.6;}
+        50% {opacity: 1;}
+        100% {opacity: 0.6;}
     }
-    .stSlider > div > div > div > div[data-baseweb="slider-thumb"]:hover {
-        background-color: #0056b3;
+    
+    .progress-message {
+        animation: pulse 2s infinite ease-in-out;
+        color: #007BFF;
+        font-weight: bold;
     }
-
 </style>
 """,
     unsafe_allow_html=True,
 )
 
+# --- UI Functions with Animations ---
+def display_welcome_message():
+    st.markdown(
+        """
+        <div style='text-align: center; padding: 2rem; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%); 
+                    border-radius: 20px; margin: 2rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);'>
+            <h1 style='color: #007BFF; margin-bottom: 1rem;'>Welcome to DigiDopps™ 🌟</h1>
+            <p style='font-size: 1.2rem; color: #555;'>Your AI-powered wellness companion is here to support your journey to better health.</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+def display_chat_tips():
+    if st.session_state.chat_counter == 0:
+        st.info("""
+        💡 **Quick Tips:**
+        - Be specific with your health-related questions
+        - Share relevant context for better assistance
+        - Ask follow-up questions for clarity
+        """)
 
 # --- Main App Layout ---
-icon(PAGE_ICON)
 st.markdown(f'<a href="https://vers3dynamics.io/" style="text-decoration:none;"><h2>{PAGE_TITLE}</h2></a>', unsafe_allow_html=True)
-st.subheader("Meet Your Wellness Health Companion, Powered by Groq 🌿")
-st.sidebar.audio("ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3", format="audio/mp3", start_time=0)    
-   
+display_welcome_message()
 
-# Image and Caption
-st.image(IMAGE_PATH, caption=IMAGE_CAPTION, width=200)
-
-# Initialize Groq client
-try:
-    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-except KeyError:
-    st.error("GROQ_API_KEY not found in secrets. Please ensure it is set.")
-    st.stop()
-except Exception as e:
-    st.error(f"Error initializing Groq client: {e}")
-    st.stop()
-
-# --- Sidebar for Model and Settings ---
+# Sidebar with Enhanced UI
 with st.sidebar:
-    st.header("Model Settings")
+    st.markdown("""
+        <div style='text-align: center; margin-bottom: 2rem;'>
+            <h2 style='color: #007BFF;'>🎯 Customize Your Experience</h2>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Model Selection with Visual Feedback
     model_option = st.selectbox(
         "Choose your AI Model:",
         options=list(models.keys()),
-        format_func=lambda x: models[x]["name"],
+        format_func=lambda x: f"🤖 {models[x]['name']}",
         index=DEFAULT_MODEL_INDEX,
         help="Select the language model to use for the chat."
     )
@@ -188,40 +209,36 @@ with st.sidebar:
         clear_chat_history()
         st.session_state.selected_model = model_option
 
+    # Model Information Card
     model_info = models[model_option]
-    st.markdown(f"**Model:** {model_info['name']}")
-    st.markdown(f"**Developer:** {model_info['developer']}")
-    st.markdown(f"**Max Tokens:** {model_info['tokens']}")
+    st.markdown(f"""
+        <div style='background: white; padding: 1rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);'>
+            <h3 style='color: #007BFF; margin-bottom: 0.5rem;'>Model Details</h3>
+            <p><strong>🔮 Model:</strong> {model_info['name']}</p>
+            <p><strong>🏢 Developer:</strong> {model_info['developer']}</p>
+            <p><strong>📊 Max Tokens:</strong> {model_info['tokens']}</p>
+        </div>
+    """, unsafe_allow_html=True)
 
-    max_tokens_range = model_info["tokens"]
-    max_tokens = st.slider(
-        "Max Response Tokens:",
-        min_value=512,
-        max_value=max_tokens_range,
-        value=min(2048, max_tokens_range),
-        step=512,
-        help=f"Control the length of the AI's response. Maximum for {model_info['name']}: {max_tokens_range} tokens."
-    )
+    # Enhanced Audio Player
+    st.markdown("""
+        <div style='background: white; padding: 1rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 1rem;'>
+            <h3 style='color: #007BFF; margin-bottom: 0.5rem;'>🎵 Welcome Message</h3>
+    """, unsafe_allow_html=True)
+    st.audio("ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3", format="audio/mp3", start_time=0)
 
-    if st.button("Clear Chat History", on_click=clear_chat_history, help="Reset the conversation history."):
-        st.rerun()
+# Chat Interface
+display_chat_tips()
 
-# --- Chat Display Area ---
 for message in st.session_state.messages:
-    avatar = '👩🏽‍⚕️' if message["role"] == "assistant" else '🧑🏾‍💻'
     if message["role"] != "system":
+        avatar = '👩🏽‍⚕️' if message["role"] == "assistant" else '🧑🏾‍💻'
         with st.chat_message(message["role"], avatar=avatar):
-            st.markdown(message["content"],  unsafe_allow_html=True) # Important for formatted content
+            st.markdown(message["content"], unsafe_allow_html=True)
 
-
-# --- Chat Input and Response Generation ---
-def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
-    """Generates chat response content from Groq API streaming."""
-    for chunk in chat_completion:
-        if chunk.choices[0].delta.content:
-            yield chunk.choices[0].delta.content
-
-if prompt := st.chat_input("Hi, I'm Taylor💜 How may I support you today?", key="user_input"):
+# Enhanced Chat Input and Response Generation
+if prompt := st.chat_input("Hello, I'm  Mnemosyne💜 How may I support you today?", key="user_input"):
+    st.session_state.chat_counter += 1
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user", avatar='🧑🏾‍💻'):
@@ -230,7 +247,12 @@ if prompt := st.chat_input("Hi, I'm Taylor💜 How may I support you today?", ke
     with st.chat_message("assistant", avatar="👩🏽‍⚕️"):
         message_placeholder = st.empty()
         full_response = ""
+        
         try:
+            # Display random loading message
+            loading_message = random.choice(LOADING_MESSAGES)
+            message_placeholder.markdown(f"<div class='progress-message'>{loading_message}</div>", unsafe_allow_html=True)
+
             chat_completion = client.chat.completions.create(
                 model=model_option,
                 messages=st.session_state.messages,
@@ -249,3 +271,7 @@ if prompt := st.chat_input("Hi, I'm Taylor💜 How may I support you today?", ke
             full_response = f"Error: {e}"
 
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+  );
+};
+
+export default WellnessChat;
