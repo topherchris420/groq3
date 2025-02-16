@@ -210,7 +210,7 @@ st.subheader("Meet Mnemosyne, Your Wellness Health Companion🌿")
 display_welcome_message()
 
 # Image and Caption
-st.image(image_fx_ (2).jpg, caption=Hello, how are you?, width=200)
+st.image(image_fx_ (2).jpg, caption=Hello, width=200)
 
 # Initialize Groq client
 try:
@@ -292,7 +292,7 @@ def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
             yield chunk.choices[0].delta.content
 
 # Chat Input and Response Generation
-if prompt := st.chat_input("Hi, I'm Taylor💜 How may I support you today?", key="user_input"):
+if prompt := st.chat_input("Hi, I'm Mnemosyne💜 How may I support you today?", key="user_input"):
     st.session_state.chat_counter += 1
     st.session_state.messages.append({"role": "user", "content": prompt})
 
