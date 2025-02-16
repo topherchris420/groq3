@@ -298,7 +298,7 @@ display_chat_tips()
 # Chat Display
 for message in st.session_state.messages:
     if message["role"] != "system":
-        avatar = '👩🏽‍⚕️' if message["role"] == "assistant" else '🧑🏾‍💻'
+        avatar = '👩🏽‍⚕️' if message["role"] == "assistant" else '✨'
         with st.chat_message(message["role"], avatar=avatar):
             st.markdown(message["content"], unsafe_allow_html=True)
 
