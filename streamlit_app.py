@@ -8,7 +8,7 @@ import random
 # --- Configuration ---
 PAGE_TITLE = "Mnemosyne Your Wellness Coach"
 PAGE_ICON = "🫂"
-IMAGE_PATH = "image_fx_ (2).jpg"
+IMAGE_PATH = "image_fx_(2).jpg"
 IMAGE_CAPTION = "Developed by Vers3Dynamics"
 DEFAULT_MODEL_INDEX = 2
 
@@ -210,7 +210,7 @@ st.subheader("Meet Mnemosyne, Your Wellness Health Companion🌿")
 display_welcome_message()
 
 # Image and Caption
-st.image(image_fx_ (2).jpg, caption=Hello, width=200)
+st.image(image_fx_(2).jpg, caption=Hello, width=200)
 
 # Initialize Groq client
 try:
