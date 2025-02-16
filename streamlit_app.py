@@ -155,8 +155,10 @@ st.markdown(
 
 # --- Main App Layout ---
 icon(PAGE_ICON)
-st.markdown(f'<a href="https://visualverse.streamlit.app/" style="text-decoration:none;"><h2>{PAGE_TITLE}</h2></a>', unsafe_allow_html=True)
-st.subheader("Meet Your Mental Health Companion, Powered by Groq 🌿")
+st.markdown(f'<a href="https://vers3dynamics.io/" style="text-decoration:none;"><h2>{PAGE_TITLE}</h2></a>', unsafe_allow_html=True)
+st.subheader("Meet Your Wellness Health Companion, Powered by Groq 🌿")
+st.sidebar.audio("ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3", format="audio/mp3", start_time=0)    
+   
 
 # Image and Caption
 st.image(IMAGE_PATH, caption=IMAGE_CAPTION, width=200)
