@@ -188,8 +188,8 @@ def display_welcome_message():
         """
         <div style='text-align: center; padding: 2rem; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%); 
                     border-radius: 20px; margin: 2rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);'>
-            <h1 style='color: #007BFF; margin-bottom: 1rem;'>Welcome to DigiDopps™ 🌟</h1>
-            <p style='font-size: 1.2rem; color: #555;'>Your AI-powered wellness companion is here to support your journey to better health.</p>
+            <h1 style='color: #007BFF; margin-bottom: 1rem;'>Recall your strength.🌟</h1>
+            <p style='font-size: 1.2rem; color: #555;'>Mnemosyne is here to support your journey to better health.</p>
         </div>
         """,
         unsafe_allow_html=True
