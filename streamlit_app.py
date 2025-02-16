@@ -6,9 +6,9 @@ from typing import Optional, Dict, Union
 import random
 
 # --- Configuration ---
-PAGE_TITLE = "Speak with Mnemosyne"
+PAGE_TITLE = "Vers3Dynamics DigiDopps™"
 PAGE_ICON = "🫂"
-IMAGE_PATH = "image_fx_ (2).jpg"
+IMAGE_PATH = "images/downloadedImage (6).png"
 IMAGE_CAPTION = "Developed by Vers3Dynamics"
 DEFAULT_MODEL_INDEX = 2
 
@@ -48,7 +48,27 @@ if "chat_counter" not in st.session_state:
 # --- Page Configuration ---
 st.set_page_config(page_icon=PAGE_ICON, layout="wide", page_title=PAGE_TITLE)
 
-# --- Custom CSS with Enhanced Styling ---
+# --- UI Functions ---
+def icon(emoji: str):
+    """Shows an emoji as a Notion-style page icon."""
+    st.write(f'<span style="font-size: 78px; line-height: 1">{emoji}</span>', unsafe_allow_html=True)
+
+def clear_chat_history():
+    """Clears chat history and resets to the initial system message."""
+    system_prompt = _get_system_prompt()
+    st.session_state.messages = [{"role": "system", "content": system_prompt}]
+    st.session_state.full_response = ""
+
+# --- Model Definitions ---
+models = {
+    "gemma-7b-it": {"name": "Gemma-7b-it", "tokens": 8192, "developer": "Google"},
+    "llama2-70b-4096": {"name": "LLaMA2-70b-chat", "tokens": 4096, "developer": "Meta"},
+    "llama3-70b-8192": {"name": "LLaMA3-70b-8192", "tokens": 8192, "developer": "Meta"},
+    "llama3-8b-8192": {"name": "LLaMA3-8b-8192", "tokens": 8192, "developer": "Meta"},
+    "mixtral-8x7b-32768": {"name": "Mixtral-8x7b-Instruct-v0.1", "tokens": 32768, "developer": "Mistral"},
+}
+
+# --- Custom CSS with Fixed Indentation ---
 st.markdown(
     """
 <style>
@@ -159,10 +179,9 @@ st.markdown(
     }
 </style>
 """,
-    unsafe_allow_html=True,
+    unsafe_allow_html=True
 )
 
-# --- UI Functions with Animations ---
 def display_welcome_message():
     st.markdown(
         """
@@ -187,6 +206,16 @@ def display_chat_tips():
 # --- Main App Layout ---
 st.markdown(f'<a href="https://vers3dynamics.io/" style="text-decoration:none;"><h2>{PAGE_TITLE}</h2></a>', unsafe_allow_html=True)
 display_welcome_message()
+
+# Initialize Groq client
+try:
+    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+except KeyError:
+    st.error("GROQ_API_KEY not found in secrets. Please ensure it is set.")
+    st.stop()
+except Exception as e:
+    st.error(f"Error initializing Groq client: {e}")
+    st.stop()
 
 # Sidebar with Enhanced UI
 with st.sidebar:
@@ -220,6 +249,19 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
 
+    max_tokens = st.slider(
+        "Max Response Tokens:",
+        min_value=512,
+        max_value=model_info["tokens"],
+        value=min(2048, model_info["tokens"]),
+        step=512,
+        help=f"Control the length of the AI's response. Maximum for {model_info['name']}: {model_info['tokens']} tokens."
+    )
+
+    if st.button("Clear Chat History", help="Reset the conversation history."):
+        clear_chat_history()
+        st.rerun()
+
     # Enhanced Audio Player
     st.markdown("""
         <div style='background: white; padding: 1rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 1rem;'>
@@ -230,14 +272,22 @@ with st.sidebar:
 # Chat Interface
 display_chat_tips()
 
+# Chat Display
 for message in st.session_state.messages:
     if message["role"] != "system":
         avatar = '👩🏽‍⚕️' if message["role"] == "assistant" else '🧑🏾‍💻'
         with st.chat_message(message["role"], avatar=avatar):
             st.markdown(message["content"], unsafe_allow_html=True)
 
-# Enhanced Chat Input and Response Generation
-if prompt := st.chat_input("Hello, I'm  Mnemosyne💜 How may I support you today?", key="user_input"):
+# Generate chat responses
+def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
+    """Generates chat response content from Groq API streaming."""
+    for chunk in chat_completion:
+        if chunk.choices[0].delta.content:
+            yield chunk.choices[0].delta.content
+
+# Chat Input and Response Generation
+if prompt := st.chat_input("Hi, I'm Taylor💜 How may I support you today?", key="user_input"):
     st.session_state.chat_counter += 1
     st.session_state.messages.append({"role": "user", "content": prompt})
 
@@ -271,7 +321,3 @@ if prompt := st.chat_input("Hello, I'm  Mnemosyne💜 How may I support you toda
             full_response = f"Error: {e}"
 
     st.session_state.messages.append({"role": "assistant", "content": full_response})
-  );
-};
-
-export default WellnessChat;
