@@ -8,7 +8,7 @@ import random
 # --- Configuration ---
 PAGE_TITLE = "Speak with Mnemosyne"
 PAGE_ICON = "🫂"
-IMAGE_PATH = "images/downloadedImage (6).png"
+IMAGE_PATH = "image_fx_ (2).jpg"
 IMAGE_CAPTION = "Developed by Vers3Dynamics"
 DEFAULT_MODEL_INDEX = 2
 
