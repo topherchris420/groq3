@@ -281,7 +281,7 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     # Audio file path handling
-    audio_path = os.path.join("audio", "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3")
+    audio_path = "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3"  # Remove "audio/" folder from path
 
     print(f"Checking audio file path: {audio_path}") # <--- Print the path
     file_exists = os.path.exists(audio_path)
