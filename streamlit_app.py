@@ -274,16 +274,21 @@ with st.sidebar:
         clear_chat_history()
         st.rerun()
 
-    # Enhanced Audio Player
+   # Enhanced Audio Player in Sidebar
     st.markdown("""
         <div style='background: white; padding: 1rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 1rem;'>
             <h3 style='color: #007BFF; margin-bottom: 0.5rem;'>🎵 Welcome Message</h3>
     """, unsafe_allow_html=True)
-    
+
     # Audio file path handling
     audio_path = os.path.join("audio", "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3")
-    if os.path.exists(audio_path):
-        st.audio("ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3", format="audio/mp3", start_time=0)
+
+    print(f"Checking audio file path: {audio_path}") # <--- Print the path
+    file_exists = os.path.exists(audio_path)
+    print(f"File exists at path: {file_exists}") # <--- Print file existence
+
+    if file_exists:
+        st.audio(audio_path, format="audio/mp3", start_time=0)
     else:
         st.warning("Audio file not found.")
 
