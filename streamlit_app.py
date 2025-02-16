@@ -283,7 +283,7 @@ with st.sidebar:
     # Audio file path handling
     audio_path = os.path.join("audio", "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3")
     if os.path.exists(audio_path):
-        st.audio(audio_path, format="audio/mp3", start_time=0)
+        st.audio("ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3", format="audio/mp3", start_time=0)
     else:
         st.warning("Audio file not found.")
 
