@@ -6,9 +6,9 @@ from typing import Optional, Dict, Union
 import random
 
 # --- Configuration ---
-PAGE_TITLE = "Vers3Dynamics DigiDopps™"
+PAGE_TITLE = "Mnemosyne Your Wellness Coach"
 PAGE_ICON = "🫂"
-IMAGE_PATH = "images/downloadedImage (6).png"
+IMAGE_PATH = "image_fx_ (2).jpg"
 IMAGE_CAPTION = "Developed by Vers3Dynamics"
 DEFAULT_MODEL_INDEX = 2
 
