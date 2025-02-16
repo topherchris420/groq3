@@ -9,7 +9,7 @@ from pathlib import Path
 # --- Configuration ---
 PAGE_TITLE = "Mnemosyne Your Wellness Coach"
 PAGE_ICON = "🫂"
-IMAGE_PATH = os.path.join("images", "image_fx_(2).jpg")  # Updated image path
+IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg")  # Updated image path
 IMAGE_CAPTION = "Developed by Vers3Dynamics"
 DEFAULT_MODEL_INDEX = 2
 
