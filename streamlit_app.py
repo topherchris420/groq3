@@ -4,11 +4,12 @@ from groq import Groq
 import os
 from typing import Optional, Dict, Union
 import random
+from pathlib import Path
 
 # --- Configuration ---
 PAGE_TITLE = "Mnemosyne Your Wellness Coach"
 PAGE_ICON = "🫂"
-IMAGE_PATH = "image_fx_(2).jpg"
+IMAGE_PATH = os.path.join("images", "image_fx_(2).jpg")  # Updated image path
 IMAGE_CAPTION = "Developed by Vers3Dynamics"
 DEFAULT_MODEL_INDEX = 2
 
@@ -209,8 +210,14 @@ st.markdown(f'<a href="https://vers3dynamics.io/" style="text-decoration:none;">
 st.subheader("Meet Mnemosyne, Your Wellness Health Companion🌿")
 display_welcome_message()
 
-# Image and Caption
-st.image("image_fx_(2).jpg", caption="Hello", width=200)
+# Image and Caption with Error Handling
+try:
+    if os.path.exists(IMAGE_PATH):
+        st.image(IMAGE_PATH, caption=IMAGE_CAPTION, width=200)
+    else:
+        st.warning(f"Image not found at: {IMAGE_PATH}")
+except Exception as e:
+    st.error(f"Error loading image: {e}")
 
 # Initialize Groq client
 try:
@@ -272,7 +279,13 @@ with st.sidebar:
         <div style='background: white; padding: 1rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 1rem;'>
             <h3 style='color: #007BFF; margin-bottom: 0.5rem;'>🎵 Welcome Message</h3>
     """, unsafe_allow_html=True)
-    st.audio("ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3", format="audio/mp3", start_time=0)
+    
+    # Audio file path handling
+    audio_path = os.path.join("audio", "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3")
+    if os.path.exists(audio_path):
+        st.audio(audio_path, format="audio/mp3", start_time=0)
+    else:
+        st.warning("Audio file not found.")
 
 # Chat Interface
 display_chat_tips()
@@ -325,4 +338,4 @@ if prompt := st.chat_input("Hi, I'm Mnemosyne💜 How may I support you today?",
             st.error(f"Oops! An error occurred: {e}. Please try again or select a different model.", icon="🐢🚨")
             full_response = f"Error: {e}"
 
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+    st.session_state.messages.append({"
