@@ -328,7 +328,7 @@ if prompt := st.chat_input("Hi, I'm Mnemosyne💜 How may I support you today?",
                 stream=True
             )
 
-             response_generator = generate_chat_responses(chat_completion)
+            response_generator = generate_chat_responses(chat_completion)
             for response_chunk in response_generator:
                 full_response += response_chunk
                 message_placeholder.markdown(full_response + "▌")
@@ -338,4 +338,4 @@ if prompt := st.chat_input("Hi, I'm Mnemosyne💜 How may I support you today?",
             st.error(f"Oops! An error occurred: {e}. Please try again or select a different model.", icon="🐢🚨")
             full_response = f"Error: {e}"
 
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
