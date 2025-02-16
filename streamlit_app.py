@@ -210,7 +210,7 @@ st.subheader("Meet Mnemosyne, Your Wellness Health Companion🌿")
 display_welcome_message()
 
 # Image and Caption
-st.image("image_fx_(2).jpg", caption=Hello, width=200)
+st.image("image_fx_(2).jpg", caption="Hello", width=200)
 
 # Initialize Groq client
 try:
