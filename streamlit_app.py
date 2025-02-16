@@ -204,8 +204,13 @@ def display_chat_tips():
         """)
 
 # --- Main App Layout ---
+icon(PAGE_ICON)
 st.markdown(f'<a href="https://vers3dynamics.io/" style="text-decoration:none;"><h2>{PAGE_TITLE}</h2></a>', unsafe_allow_html=True)
+st.subheader("Meet Mnemosyne, Your Wellness Health Companion🌿")
 display_welcome_message()
+
+# Image and Caption
+st.image(image_fx_ (2).jpg, caption=Hello, how are you?, width=200)
 
 # Initialize Groq client
 try:
