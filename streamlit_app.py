@@ -310,7 +310,7 @@ def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
             yield chunk.choices[0].delta.content
 
 # Chat Input and Response Generation
-if prompt := st.chat_input("Hi, I'm Mnemosyne💜 How may I support you today?", key="user_input"):
+if prompt := st.chat_input("Hi, I'm Mnemosyne💜", key="user_input"):
     st.session_state.chat_counter += 1
     st.session_state.messages.append({"role": "user", "content": prompt})
 
