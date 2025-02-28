@@ -9,7 +9,7 @@ from pathlib import Path
 PAGE_TITLE = "Vers3Dynamics"
 PAGE_ICON = "👩‍⚕️"  # Changed to brain emoji for mental health focus
 IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg") 
-IMAGE_CAPTION = "Mental Health Insights - Best Experience on Mobile"
+IMAGE_CAPTION = "You Are the Master of Your Fate"
 DEFAULT_MODEL_INDEX = 2
 APP_NAME = "Mnemosyne"
 APP_TAGLINE = "Early Intervention Mental Health Companion 🌿"  # Updated tagline
@@ -346,7 +346,7 @@ def display_welcome_message():
             st.markdown(
                 f"""
                 <div class='welcome-card'>
-                    <h1 style="color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};">🧠 Early Signs Matter 🧠</h1>
+                    <h1 style="color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};">Early Signs Matter🫂</h1>
                     <p style="font-size: 1.2rem; color: {text_color};">{APP_NAME} helps identify early signs of anxiety, depression, and psychosis.</p>
                     <p style="font-size: 1.2rem; color: {text_color};">Using insights from longitudinal research data to support early intervention.</p>
                 </div>
