@@ -138,7 +138,7 @@ def load_css(theme="light"):
             /* Buttons */
             div.stButton > button:first-child {
                 background: linear-gradient(45deg, #9370DB, #DA70D6);
-                color: white !important;
+                color: black !important;
                 border-radius: 25px;
                 padding: 0.5rem 1rem;
                 border: none;
