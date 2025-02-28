@@ -51,19 +51,28 @@ def load_css(theme="light"):
                 background-color: #1a1a2e;
                 color: #e4e4e4;
             }
+            
             /* Chat Messages */
-            .stChatMessage.assistant {
-                background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 100%);
-                margin-right: 25%;
-                border: 1px solid #ff69b4;
-                color: #333;  /* Ensures text remains readable */
+            .stChatMessage {
+                border-radius: 20px;
+                padding: 1.5rem;
+                margin: 1rem 0;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             }
+            
             .stChatMessage.user {
-                background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
-                margin-right: 25%;
-                border: 1px solid #D8BFD8;
-                color: #333;
+                background: linear-gradient(135deg, #4B0082 0%, #8A2BE2 100%);
+                margin-left: 25%;
+                color: white;
             }
+            
+            .stChatMessage.assistant {
+                background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+                margin-right: 25%;
+                color: #e4e4e4;
+                border: 1px solid #4B0082;
+            }
+            
             /* Buttons */
             div.stButton > button:first-child {
                 background: linear-gradient(45deg, #4B0082, #8A2BE2);
@@ -72,21 +81,24 @@ def load_css(theme="light"):
                 padding: 0.5rem 1rem;
                 border: none;
             }
+            
             /* Loading animation */
             .progress-message {
                 color: #BA55D3;
                 font-weight: bold;
             }
+            
             /* Welcome Card */
             .welcome-card {
-                text-align: center;
-                padding: 2rem;
+                text-align: center; 
+                padding: 2rem; 
                 background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-                border-radius: 20px;
-                margin: 2rem 0;
+                border-radius: 20px; 
+                margin: 2rem 0; 
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
                 border: 1px solid #4B0082;
             }
+            
             /* Info Box */
             .stInfo {
                 background: #16213e;
@@ -103,6 +115,7 @@ def load_css(theme="light"):
             .stApp {
                 background-color: #f5f7fa;
             }
+            
             /* Chat Messages */
             .stChatMessage {
                 border-radius: 20px;
@@ -110,104 +123,45 @@ def load_css(theme="light"):
                 margin: 1rem 0;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
+            
             .stChatMessage.user {
                 background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
                 margin-left: 25%;
             }
+            
             .stChatMessage.assistant {
                 background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
                 margin-right: 25%;
                 border: 1px solid #D8BFD8;
-                color: #333;
             }
+            
             /* Buttons */
             div.stButton > button:first-child {
-                background: linear-grad
-
-
-        else:  # Light theme
-        # In the else block of load_css for the light theme
-        st.markdown("""
-        <style>
-    /* Light Theme */
-    .stApp {
-        background-color: #f5f7fa;
-    }
-    
-st.markdown(
-    """
-    <style>
-    .stChatMessage {
-        border-radius: 20px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-    st.markdown(
-    """
-    <style>
-    .stChatMessage {
-        border-radius: 20px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-    
-    .stChatMessage.assistant {
-        background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
-        margin-right: 25%;
-        border: 1px solid #D8BFD8;
-    }
-    
-    /* Buttons */
-    div.stButton > button:first-child {
-        background: linear-gradient(45deg, #9370DB, #DA70D6);
-        color: white !important;
-        border-radius: 25px;
-        padding: 0.5rem 1rem;
-        border: none;
-    }
-    
-    /* Loading animation */
-    .progress-message {
-        color: #9370DB;
-        font-weight: bold;
-    }
-    
-    /* Welcome Card */
-    .welcome-card {
-        text-align: center; 
-        padding: 2rem; 
-        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
-        border-radius: 20px; 
-        margin: 2rem 0; 
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        border: 1px solid #D8BFD8;
-    }
-    
-    /* Mobile Override for Assistant Bubble */
-    @media only screen and (max-width: 768px) {
-        .stChatMessage.assistant {
-            background: #ffb6c1 !important;  /* Light pink background for mobile */
-            color: #333 !important;         /* Force dark text for readability */
-        }
-    }
-</style>
-""", unsafe_allow_html=True)
-
-
+                background: linear-gradient(45deg, #9370DB, #DA70D6);
+                color: white !important;
+                border-radius: 25px;
+                padding: 0.5rem 1rem;
+                border: none;
+            }
+            
+            /* Loading animation */
+            .progress-message {
+                color: #9370DB;
+                font-weight: bold;
+            }
+            
+            /* Welcome Card */
+            .welcome-card {
+                text-align: center; 
+                padding: 2rem; 
+                background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+                border-radius: 20px; 
+                margin: 2rem 0; 
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                border: 1px solid #D8BFD8;
+            }
+        </style>
+        """, unsafe_allow_html=True)
 
 # --- Page Configuration ---
 st.set_page_config(page_icon=PAGE_ICON, layout="wide", page_title=PAGE_TITLE)
