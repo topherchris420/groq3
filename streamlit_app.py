@@ -9,7 +9,7 @@ from pathlib import Path
 PAGE_TITLE = "Vers3Dynamics"
 PAGE_ICON = "🕊"
 IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg") 
-IMAGE_CAPTION = "Developed by Vers3Dynamics"
+IMAGE_CAPTION = "Lights out, Vibes on for Dark Mode - Best on Mobile"
 DEFAULT_MODEL_INDEX = 2
 APP_NAME = "Mnemosyne"
 APP_TAGLINE = "Your Wellness Health Companion 🌿"
