@@ -456,7 +456,7 @@ else:
         with st.chat_message("user", avatar='✨'):
             st.markdown(user_input)
 
-        with st.chat_message("assistant", avatar="👩🏽‍⚕️🕯️"):
+        with st.chat_message("assistant", avatar="👩🏽‍⚕"):
             message_placeholder = st.empty()
             full_response = ""
             
