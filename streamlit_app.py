@@ -134,14 +134,19 @@ def load_css(theme="light"):
         background-color: #f5f7fa;
     }
     
-    /* Chat Messages */
-    .stChatMessage {
+    st.markdown(
+    """
+    <style>
+      .stChatMessage {
         border-radius: 20px;
         padding: 1.5rem;
         margin: 1rem 0;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    
+    </style>
+    """,
+    unsafe_allow_html=True
+)
     .stChatMessage.user {
         background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
         margin-left: 25%;
