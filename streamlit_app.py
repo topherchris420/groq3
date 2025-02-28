@@ -108,13 +108,14 @@ def load_css(theme="light"):
             }
         </style>
         """, unsafe_allow_html=True)
-    else:  # Light theme
+   else:  # Light theme
         st.markdown("""
         <style>
-            /* Light Theme */
-            .stApp {
-                background-color: #f5f7fa;
-            }
+            .stApp { background-color: #f5f7fa; }
+            .stChatMessage { color: black !important; }
+        </style>
+        """, unsafe_allow_html=True)
+
             
             /* Chat Messages */
             .stChatMessage {
