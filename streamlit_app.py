@@ -42,7 +42,6 @@ def _get_system_prompt() -> str:
         return "You are Mnemosyne, a health and wellness AI assistant developed by Vers3Dynamics. Your goal is to provide helpful, accurate health information while being supportive and empathetic."
 
 # --- Custom CSS ---
-# --- Custom CSS ---
 def load_css(theme="light"):
     if theme == "dark":
         st.markdown("""
@@ -88,8 +87,13 @@ st.set_page_config(page_icon=PAGE_ICON, layout="wide", page_title=PAGE_TITLE)
 
 # --- Initialize Session State ---
 if "messages" not in st.session_state:
-    system_prompt = _get_system_prompt()
-    st.session_state.messages = [{"role": "system", "content": system_prompt}]
+    st.session_state.messages = [{"role": "system", "content": _get_system_prompt()}]
+
+# Ensure every message has a valid role
+for msg in st.session_state.messages:
+    if "role" not in msg:
+        msg["role"] = "assistant"  # Default fallback
+
 if "selected_model" not in st.session_state:
     st.session_state.selected_model = None
 if "chat_counter" not in st.session_state:
