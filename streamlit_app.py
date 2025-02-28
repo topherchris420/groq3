@@ -106,8 +106,8 @@ def load_css(theme="light"):
         """, unsafe_allow_html=True)
     else:  # Light theme
         # In the else block of load_css for the light theme
-st.markdown("""
-<style>
+        st.markdown("""
+        <style>
     /* Light Theme */
     .stApp {
         background-color: #f5f7fa;
