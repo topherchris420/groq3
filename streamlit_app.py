@@ -114,6 +114,7 @@ def load_css(theme="light"):
             /* Light Theme */
             .stApp {
                 background-color: #f5f7fa;
+                color: #000000;
             }
             
             /* Chat Messages */
@@ -127,12 +128,21 @@ def load_css(theme="light"):
             .stChatMessage.user {
                 background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
                 margin-left: 25%;
+                color: #000000;
             }
             
             .stChatMessage.assistant {
                 background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
                 margin-right: 25%;
                 border: 1px solid #D8BFD8;
+                color: #000000;
+            }
+            
+            /* Explicitly set text color for all markdown in light mode */
+            .stMarkdown, .stMarkdown p, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, 
+            .stMarkdown h4, .stMarkdown h5, .stMarkdown h6, .stMarkdown ul, .stMarkdown ol, 
+            .stMarkdown li, .stMarkdown a, .stMarkdown span {
+                color: #000000 !important;
             }
             
             /* Buttons */
@@ -159,6 +169,28 @@ def load_css(theme="light"):
                 margin: 2rem 0; 
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 border: 1px solid #D8BFD8;
+                color: #000000;
+            }
+            
+            /* Make sure text is black in the info box */
+            .stInfo, .stInfo * {
+                color: #000000 !important;
+            }
+            
+            /* Force black text for all chat messages in light mode */
+            .stChatMessage .stMarkdown {
+                color: #000000 !important;
+            }
+            
+            /* Ensure any code blocks have proper contrast */
+            .stChatMessage code {
+                color: #000000;
+                background-color: #f0f0f0;
+            }
+            
+            /* Make sure links are visible but distinguished */
+            a, a:visited {
+                color: #9370DB !important;
             }
         </style>
         """, unsafe_allow_html=True)
@@ -243,12 +275,13 @@ def display_welcome_message():
     if st.session_state.show_welcome:
         welcome_card = st.container()
         with welcome_card:
+            text_color = '#e4e4e4' if st.session_state.theme == 'dark' else '#000000'
             st.markdown(
                 f"""
                 <div class='welcome-card'>
                     <h1 style="color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};">🌟 Recall your strength 🌟</h1>
-                    <p style="font-size: 1.2rem; color: {'#e4e4e4' if st.session_state.theme == 'dark' else '#555'};">{APP_NAME} is here to support your journey to better health.</p>
-                    <p style="font-size: 1.2rem; color: {'#e4e4e4' if st.session_state.theme == 'dark' else '#555'};">Ask me about wellness practices, nutrition advice, or mental health support.</p>
+                    <p style="font-size: 1.2rem; color: {text_color};">{APP_NAME} is here to support your journey to better health.</p>
+                    <p style="font-size: 1.2rem; color: {text_color};">Ask me about wellness practices, nutrition advice, or mental health support.</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -301,6 +334,7 @@ else:
 
     # Sidebar with Enhanced UI
     with st.sidebar:
+        text_color = '#e4e4e4' if st.session_state.theme == 'dark' else '#000000'
         st.markdown(f"""
             <div style='text-align: center; margin-bottom: 2rem;'>
                 <h2 style='color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"};'>🎯 Customize Your Experience</h2>
@@ -349,10 +383,10 @@ else:
                       border: 1px solid {"#4B0082" if st.session_state.theme == "dark" else "#E6E6FA"};
                       margin-top: 1rem;'>
                 <h3 style='color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"}; margin-bottom: 0.5rem;'>Model Details</h3>
-                <p style='color: {"#e4e4e4" if st.session_state.theme == "dark" else "#333"};'><strong>🔮 Model:</strong> {model_info['name']}</p>
-                <p style='color: {"#e4e4e4" if st.session_state.theme == "dark" else "#333"};'><strong>🏢 Developer:</strong> {model_info['developer']}</p>
-                <p style='color: {"#e4e4e4" if st.session_state.theme == "dark" else "#333"};'><strong>📊 Max Tokens:</strong> {model_info['tokens']}</p>
-                <p style='color: {"#e4e4e4" if st.session_state.theme == "dark" else "#333"};'><strong>📝 Description:</strong> {model_info['description']}</p>
+                <p style='color: {text_color};'><strong>🔮 Model:</strong> {model_info['name']}</p>
+                <p style='color: {text_color};'><strong>🏢 Developer:</strong> {model_info['developer']}</p>
+                <p style='color: {text_color};'><strong>📊 Max Tokens:</strong> {model_info['tokens']}</p>
+                <p style='color: {text_color};'><strong>📝 Description:</strong> {model_info['description']}</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -476,8 +510,12 @@ else:
                 response_generator = generate_chat_responses(chat_completion)
                 for response_chunk in response_generator:
                     full_response += response_chunk
-                    message_placeholder.markdown(full_response + "▌")
-                message_placeholder.markdown(full_response)
+                    # Apply text color directly to ensure visibility on mobile
+                    text_color_style = "color: #000000 !important;" if st.session_state.theme == "light" else "color: #e4e4e4 !important;"
+                    message_placeholder.markdown(f"<div style='{text_color_style}'>{full_response}▌</div>", unsafe_allow_html=True)
+                
+                # Final response with proper styling
+                message_placeholder.markdown(f"<div style='{text_color_style}'>{full_response}</div>", unsafe_allow_html=True)
 
             except Exception as e:
                 st.error(f"Oops! An error occurred: {e}. Please try again or select a different model.", icon="🚨")
@@ -486,8 +524,9 @@ else:
             st.session_state.messages.append({"role": "assistant", "content": full_response})
 
 # Footer with conditional styling
+text_color = '#e4e4e4' if st.session_state.theme == 'dark' else '#000000'
 st.markdown(f"""
-    <div style='text-align: center; margin-top: 2rem; opacity: 0.7; color: {"#e4e4e4" if st.session_state.theme == "dark" else "#555"};'>
+    <div style='text-align: center; margin-top: 2rem; opacity: 0.7; color: {text_color};'>
         <p>© 2025 Vers3Dynamics • 
         <a href="https://vers3dynamics.io/privacy" style="text-decoration:none; color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"};">Privacy Policy</a> • 
         <a href="https://vers3dynamics.io/terms" style="text-decoration:none; color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"};">Terms of Service</a></p>
