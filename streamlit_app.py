@@ -7,23 +7,25 @@ from pathlib import Path
 
 # --- Configuration ---
 PAGE_TITLE = "Vers3Dynamics"
-PAGE_ICON = "🕊"
+PAGE_ICON = "👩‍⚕️"  # Changed to brain emoji for mental health focus
 IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg") 
-IMAGE_CAPTION = "Lights out, Vibes on for Dark Mode - Best on Mobile"
+IMAGE_CAPTION = "Mental Health Insights - Best Experience on Mobile"
 DEFAULT_MODEL_INDEX = 2
 APP_NAME = "Mnemosyne"
-APP_TAGLINE = "Your Wellness Health Companion 🌿"
+APP_TAGLINE = "Early Intervention Mental Health Companion 🌿"  # Updated tagline
 
-# Add animated loading messages
+# Add animated loading messages focused on mental health
 LOADING_MESSAGES = [
-    "Thinking deeply about your question... 🤔",
-    "Processing with care... 💭",
-    "Analyzing your request... 📊",
-    "Crafting a thoughtful response... ✨",
-    "Computing with compassion... 💝",
-    "Consulting wellness knowledge... 🧠",
-    "Formulating holistic answers... 🌱",
-    "Connecting health insights... 🔄"
+    "Analyzing mental health patterns... 🧠",
+    "Processing longitudinal data insights... 📊",
+    "Identifying early intervention options... 🔍",
+    "Reviewing research on anxiety indicators... 📋",
+    "Correlating psychological and social factors... 🔄",
+    "Examining depression early warning signs... 📉",
+    "Analyzing mental wellness trajectories... 📈",
+    "Integrating biological, psychological, and social factors... 🧬",
+    "Computing evidence-based intervention insights... 💭",
+    "Reviewing early psychosis research findings... 🔎"
 ]
 
 # --- Function to get system prompt ---
@@ -35,11 +37,21 @@ def _get_system_prompt() -> str:
         with open(file_path, "r", encoding="utf-8") as file:
             return file.read()
     except FileNotFoundError:
-        # Provide a fallback system prompt
-        return "You are Mnemosyne, a health and wellness AI assistant developed by Vers3Dynamics. Your goal is to provide helpful, accurate health information while being supportive and empathetic."
+        # Provide a fallback system prompt with mental health focus
+        return """You are Mnemosyne, a mental health AI assistant developed by Vers3Dynamics. 
+        Your primary goal is to help identify early signs of anxiety, depression, and psychosis, 
+        and to suggest evidence-based early interventions. You understand that mental health conditions 
+        are complex with many interconnecting biological, psychological, and social factors. 
+        Provide supportive, empathetic guidance while emphasizing early intervention strategies. 
+        Never diagnose but help users understand potential warning signs that merit professional attention."""
     except Exception as e:
         st.error(f"Error reading system prompt file: {e}")
-        return "You are Mnemosyne, a health and wellness AI assistant developed by Vers3Dynamics. Your goal is to provide helpful, accurate health information while being supportive and empathetic."
+        return """You are Mnemosyne, a mental health AI assistant developed by Vers3Dynamics. 
+        Your primary goal is to help identify early signs of anxiety, depression, and psychosis, 
+        and to suggest evidence-based early interventions. You understand that mental health conditions 
+        are complex with many interconnecting biological, psychological, and social factors. 
+        Provide supportive, empathetic guidance while emphasizing early intervention strategies. 
+        Never diagnose but help users understand potential warning signs that merit professional attention."""
 
 # --- Mobile-optimized CSS ---
 def load_css(theme="light"):
@@ -298,31 +310,31 @@ models = {
         "name": "Gemma-7b-it", 
         "tokens": 8192, 
         "developer": "Google",
-        "description": "Fast and efficient model for general tasks"
+        "description": "Fast model for mental health pattern recognition"
     },
     "llama2-70b-4096": {
         "name": "LLaMA2-70b-chat", 
         "tokens": 4096, 
         "developer": "Meta",
-        "description": "Powerful model with strong reasoning abilities"
+        "description": "Strong reasoning for complex mental health factors"
     },
     "llama3-70b-8192": {
         "name": "LLaMA3-70b-8192", 
         "tokens": 8192, 
         "developer": "Meta",
-        "description": "Advanced model with excellent conversational skills"
+        "description": "Advanced model for nuanced mental health insights"
     },
     "llama3-8b-8192": {
         "name": "LLaMA3-8b-8192", 
         "tokens": 8192, 
         "developer": "Meta",
-        "description": "Balanced model for efficiency and capability"
+        "description": "Balanced model for early intervention strategies"
     },
     "mixtral-8x7b-32768": {
         "name": "Mixtral-8x7b-Instruct-v0.1", 
         "tokens": 32768, 
         "developer": "Mistral",
-        "description": "Excellent for long-form health conversations"
+        "description": "Excellent for analyzing complex mental health data"
     },
 }
 
@@ -334,9 +346,9 @@ def display_welcome_message():
             st.markdown(
                 f"""
                 <div class='welcome-card'>
-                    <h1 style="color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};">🌟 Recall your strength 🌟</h1>
-                    <p style="font-size: 1.2rem; color: {text_color};">{APP_NAME} is here to support your journey to better health.</p>
-                    <p style="font-size: 1.2rem; color: {text_color};">Ask me about wellness practices, nutrition advice, or mental health support.</p>
+                    <h1 style="color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};">🧠 Early Signs Matter 🧠</h1>
+                    <p style="font-size: 1.2rem; color: {text_color};">{APP_NAME} helps identify early signs of anxiety, depression, and psychosis.</p>
+                    <p style="font-size: 1.2rem; color: {text_color};">Using insights from longitudinal research data to support early intervention.</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -350,11 +362,12 @@ def display_welcome_message():
 def display_chat_tips():
     if st.session_state.chat_counter == 0 and not st.session_state.show_welcome:
         st.info("""
-        💡 **Quick Tips:**
-        - Be specific with your health-related questions
-        - Share relevant context for better assistance
-        - Ask follow-up questions for clarity
-        - Try asking about meditation, nutrition, or wellness routines
+        💡 **Mental Health Early Signs Tips:**
+        - Ask about early warning signs for anxiety or depression
+        - Discuss biological, psychological, and social factors
+        - Learn about effective early intervention strategies
+        - Explore longitudinal research on mental health conditions
+        - Discover how to recognize early psychosis indicators
         """)
 
 # --- Main App Layout ---
@@ -392,7 +405,7 @@ else:
         text_color = '#ffffff' if st.session_state.theme == 'dark' else '#000000'
         st.markdown(f"""
             <div style='text-align: center; margin-bottom: 2rem;'>
-                <h2 style='color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"};'>🎯 Customize Your Experience</h2>
+                <h2 style='color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"};'>🔍 Mental Health Insights</h2>
             </div>
         """, unsafe_allow_html=True)
         
@@ -495,7 +508,7 @@ else:
         except Exception as e:
             st.warning(f"Could not load audio: {e}")
             
-        # Quick prompt suggestions with fixed implementation
+        # Quick prompt suggestions with mental health focus
         st.markdown(f"""
             <div style='background: {"#16213e" if st.session_state.theme == "dark" else "white"}; 
                       padding: 1rem; 
@@ -503,16 +516,16 @@ else:
                       box-shadow: 0 4px 6px rgba(0, 0, 0, {"0.3" if st.session_state.theme == "dark" else "0.1"});
                       border: 1px solid {"#4B0082" if st.session_state.theme == "dark" else "#E6E6FA"};
                       margin-top: 1rem;'>
-                <h3 style='color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"}; margin-bottom: 0.5rem;'>💡 Quick Prompts</h3>
+                <h3 style='color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"}; margin-bottom: 0.5rem;'>💡 Mental Health Prompts</h3>
             </div>
         """, unsafe_allow_html=True)
         
         quick_prompts = [
-            "How can I improve my sleep quality?",
-            "What are some beginner-friendly meditation techniques?",
-            "Can you suggest a balanced meal plan for the week?",
-            "What exercises are good for stress relief?",
-            "How can I establish a healthy morning routine?"
+            "What are early warning signs of anxiety?",
+            "How can I recognize depression in its early stages?",
+            "What biological factors contribute to mental health conditions?",
+            "Tell me about effective early interventions for psychosis",
+            "How do longitudinal studies help understand mental health?"
         ]
         
         for i, prompt in enumerate(quick_prompts):
@@ -525,7 +538,7 @@ else:
     
     for message in st.session_state.messages:
         if message["role"] != "system":
-            avatar = '👩🏽‍⚕️' if message["role"] == "assistant" else '✨'
+            avatar = '🧠' if message["role"] == "assistant" else '✨'
             with st.chat_message(message["role"], avatar=avatar):
                 st.markdown(message["content"])
 
@@ -537,7 +550,7 @@ else:
                 yield chunk.choices[0].delta.content
 
     # Chat Input and Response Generation
-    user_input = st.chat_input(f"Hi, I'm {APP_NAME}💜. How can I help with your wellness today?", key="user_input")
+    user_input = st.chat_input(f"Hi, I'm {APP_NAME}💜. Ask me about early signs of mental health conditions.", key="user_input")
     if user_input:
         st.session_state.chat_counter += 1
         st.session_state.messages.append({"role": "user", "content": user_input})
@@ -545,7 +558,7 @@ else:
         with st.chat_message("user", avatar='✨'):
             st.markdown(user_input)
 
-        with st.chat_message("assistant", avatar="👩🏽‍⚕"):
+        with st.chat_message("assistant", avatar="🧠"):
             message_placeholder = st.empty()
             full_response = ""
             
