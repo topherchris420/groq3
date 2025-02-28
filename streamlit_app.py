@@ -41,18 +41,33 @@ def _get_system_prompt() -> str:
         st.error(f"Error reading system prompt file: {e}")
         return "You are Mnemosyne, a health and wellness AI assistant developed by Vers3Dynamics. Your goal is to provide helpful, accurate health information while being supportive and empathetic."
 
-# --- Custom CSS ---
+# --- Mobile-optimized CSS ---
 def load_css(theme="light"):
     if theme == "dark":
         st.markdown("""
         <style>
-            /* Dark Theme */
+            /* Dark Theme with improved mobile visibility */
             .stApp {
                 background-color: #1a1a2e;
-                color: #e4e4e4;
+                color: #ffffff !important;
             }
             
-            /* Chat Messages */
+            /* Increased font size for all text on mobile */
+            @media (max-width: 768px) {
+                body, p, li, div, span {
+                    font-size: 16px !important;
+                    line-height: 1.5 !important;
+                }
+                h1 { font-size: 24px !important; }
+                h2 { font-size: 22px !important; }
+                h3 { font-size: 20px !important; }
+                .stMarkdown p { 
+                    font-size: 16px !important;
+                    color: #ffffff !important;
+                }
+            }
+            
+            /* Improve Chat Messages contrast for mobile */
             .stChatMessage {
                 border-radius: 20px;
                 padding: 1.5rem;
@@ -62,15 +77,32 @@ def load_css(theme="light"):
             
             .stChatMessage.user {
                 background: linear-gradient(135deg, #4B0082 0%, #8A2BE2 100%);
-                margin-left: 25%;
-                color: white;
+                margin-left: 10%;  /* Reduced margin for mobile */
+                color: white !important;
             }
             
             .stChatMessage.assistant {
                 background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
-                margin-right: 25%;
-                color: #e4e4e4;
+                margin-right: 10%;  /* Reduced margin for mobile */
+                color: #ffffff !important;
                 border: 1px solid #4B0082;
+            }
+            
+            /* Force white text for all chat messages in dark mode */
+            .stChatMessage .stMarkdown, 
+            .stChatMessage .stMarkdown p,
+            .stChatMessage .stMarkdown li,
+            .stChatMessage .stMarkdown a {
+                color: #ffffff !important;
+            }
+            
+            /* Ensure code blocks have proper contrast */
+            .stChatMessage code {
+                background-color: #2d2d3a !important;
+                color: #f8f8f2 !important;
+                padding: 0.2em 0.4em !important;
+                border-radius: 3px !important;
+                font-size: 85% !important;
             }
             
             /* Buttons */
@@ -78,23 +110,25 @@ def load_css(theme="light"):
                 background: linear-gradient(45deg, #4B0082, #8A2BE2);
                 color: white !important;
                 border-radius: 25px;
-                padding: 0.5rem 1rem;
+                padding: 0.75rem 1.25rem;  /* Larger tap targets for mobile */
                 border: none;
+                font-size: 16px !important;  /* Larger text for mobile */
             }
             
             /* Loading animation */
             .progress-message {
                 color: #BA55D3;
                 font-weight: bold;
+                font-size: 16px !important;
             }
             
-            /* Welcome Card */
+            /* Welcome Card mobile optimization */
             .welcome-card {
                 text-align: center; 
-                padding: 2rem; 
+                padding: 1.5rem;  /* Adjusted padding for mobile */
                 background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
                 border-radius: 20px; 
-                margin: 2rem 0; 
+                margin: 1.5rem 0; 
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
                 border: 1px solid #4B0082;
             }
@@ -102,22 +136,41 @@ def load_css(theme="light"):
             /* Info Box */
             .stInfo {
                 background: #16213e;
-                color: #e4e4e4;
+                color: #ffffff !important;
                 border: 1px solid #4B0082;
                 border-radius: 10px;
+            }
+            
+            .stInfo * {
+                color: #ffffff !important;
             }
         </style>
         """, unsafe_allow_html=True)
     else:  # Light theme
         st.markdown("""
         <style>
-            /* Light Theme */
+            /* Light Theme with improved mobile visibility */
             .stApp {
                 background-color: #f5f7fa;
-                color: #000000;
+                color: #000000 !important;
             }
             
-            /* Chat Messages */
+            /* Increased font size for all text on mobile */
+            @media (max-width: 768px) {
+                body, p, li, div, span {
+                    font-size: 16px !important;
+                    line-height: 1.5 !important;
+                }
+                h1 { font-size: 24px !important; }
+                h2 { font-size: 22px !important; }
+                h3 { font-size: 20px !important; }
+                .stMarkdown p { 
+                    font-size: 16px !important;
+                    color: #000000 !important;
+                }
+            }
+            
+            /* Improve Chat Messages contrast for mobile */
             .stChatMessage {
                 border-radius: 20px;
                 padding: 1.5rem;
@@ -127,22 +180,32 @@ def load_css(theme="light"):
             
             .stChatMessage.user {
                 background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
-                margin-left: 25%;
-                color: #000000;
+                margin-left: 10%;  /* Reduced margin for mobile */
+                color: #000000 !important;
             }
             
             .stChatMessage.assistant {
                 background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
-                margin-right: 25%;
+                margin-right: 10%;  /* Reduced margin for mobile */
                 border: 1px solid #D8BFD8;
-                color: #000000;
+                color: #000000 !important;
             }
             
-            /* Explicitly set text color for all markdown in light mode */
-            .stMarkdown, .stMarkdown p, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, 
-            .stMarkdown h4, .stMarkdown h5, .stMarkdown h6, .stMarkdown ul, .stMarkdown ol, 
-            .stMarkdown li, .stMarkdown a, .stMarkdown span {
+            /* Force black text for all chat messages in light mode */
+            .stChatMessage .stMarkdown, 
+            .stChatMessage .stMarkdown p,
+            .stChatMessage .stMarkdown li,
+            .stChatMessage .stMarkdown a {
                 color: #000000 !important;
+            }
+            
+            /* Ensure code blocks have proper contrast */
+            .stChatMessage code {
+                background-color: #f0f0f0 !important;
+                color: #000000 !important;
+                padding: 0.2em 0.4em !important;
+                border-radius: 3px !important;
+                font-size: 85% !important;
             }
             
             /* Buttons */
@@ -150,23 +213,25 @@ def load_css(theme="light"):
                 background: linear-gradient(45deg, #9370DB, #DA70D6);
                 color: black !important;
                 border-radius: 25px;
-                padding: 0.5rem 1rem;
+                padding: 0.75rem 1.25rem;  /* Larger tap targets for mobile */
                 border: none;
+                font-size: 16px !important;  /* Larger text for mobile */
             }
             
             /* Loading animation */
             .progress-message {
                 color: #9370DB;
                 font-weight: bold;
+                font-size: 16px !important;
             }
             
-            /* Welcome Card */
+            /* Welcome Card mobile optimization */
             .welcome-card {
                 text-align: center; 
-                padding: 2rem; 
+                padding: 1.5rem;  /* Adjusted padding for mobile */
                 background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
                 border-radius: 20px; 
-                margin: 2rem 0; 
+                margin: 1.5rem 0; 
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 border: 1px solid #D8BFD8;
                 color: #000000;
@@ -177,20 +242,10 @@ def load_css(theme="light"):
                 color: #000000 !important;
             }
             
-            /* Force black text for all chat messages in light mode */
-            .stChatMessage .stMarkdown {
-                color: #000000 !important;
-            }
-            
-            /* Ensure any code blocks have proper contrast */
-            .stChatMessage code {
-                color: #000000;
-                background-color: #f0f0f0;
-            }
-            
-            /* Make sure links are visible but distinguished */
+            /* Ensure any links are visible but distinguished */
             a, a:visited {
                 color: #9370DB !important;
+                font-weight: bold !important;
             }
         </style>
         """, unsafe_allow_html=True)
@@ -275,7 +330,7 @@ def display_welcome_message():
     if st.session_state.show_welcome:
         welcome_card = st.container()
         with welcome_card:
-            text_color = '#e4e4e4' if st.session_state.theme == 'dark' else '#000000'
+            text_color = '#ffffff' if st.session_state.theme == 'dark' else '#000000'
             st.markdown(
                 f"""
                 <div class='welcome-card'>
@@ -334,7 +389,7 @@ else:
 
     # Sidebar with Enhanced UI
     with st.sidebar:
-        text_color = '#e4e4e4' if st.session_state.theme == 'dark' else '#000000'
+        text_color = '#ffffff' if st.session_state.theme == 'dark' else '#000000'
         st.markdown(f"""
             <div style='text-align: center; margin-bottom: 2rem;'>
                 <h2 style='color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"};'>🎯 Customize Your Experience</h2>
@@ -497,7 +552,10 @@ else:
             try:
                 # Display random loading message
                 loading_message = random.choice(LOADING_MESSAGES)
-                message_placeholder.markdown(f"<div class='progress-message'>{loading_message}</div>", unsafe_allow_html=True)
+                message_placeholder.markdown(
+                    f"<div class='progress-message'>{loading_message}</div>", 
+                    unsafe_allow_html=True
+                )
 
                 chat_completion = client.chat.completions.create(
                     model=model_option,
@@ -507,15 +565,22 @@ else:
                     stream=True
                 )
 
+                # Apply stronger styling to ensure text visibility on mobile
+                text_color_style = "color: #000000 !important; font-size: 16px !important;" if st.session_state.theme == "light" else "color: #ffffff !important; font-size: 16px !important;"
+                
                 response_generator = generate_chat_responses(chat_completion)
                 for response_chunk in response_generator:
                     full_response += response_chunk
-                    # Apply text color directly to ensure visibility on mobile
-                    text_color_style = "color: #000000 !important;" if st.session_state.theme == "light" else "color: #e4e4e4 !important;"
-                    message_placeholder.markdown(f"<div style='{text_color_style}'>{full_response}▌</div>", unsafe_allow_html=True)
+                    message_placeholder.markdown(
+                        f"<div style='{text_color_style}'>{full_response}▌</div>", 
+                        unsafe_allow_html=True
+                    )
                 
                 # Final response with proper styling
-                message_placeholder.markdown(f"<div style='{text_color_style}'>{full_response}</div>", unsafe_allow_html=True)
+                message_placeholder.markdown(
+                    f"<div style='{text_color_style}'>{full_response}</div>", 
+                    unsafe_allow_html=True
+                )
 
             except Exception as e:
                 st.error(f"Oops! An error occurred: {e}. Please try again or select a different model.", icon="🚨")
@@ -524,7 +589,7 @@ else:
             st.session_state.messages.append({"role": "assistant", "content": full_response})
 
 # Footer with conditional styling
-text_color = '#e4e4e4' if st.session_state.theme == 'dark' else '#000000'
+text_color = '#ffffff' if st.session_state.theme == 'dark' else '#000000'
 st.markdown(f"""
     <div style='text-align: center; margin-top: 2rem; opacity: 0.7; color: {text_color};'>
         <p>© 2025 Vers3Dynamics • 
