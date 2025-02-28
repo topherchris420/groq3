@@ -61,11 +61,13 @@ def load_css(theme="light"):
 }
 
             
-            .stChatMessage.user {
-                background: linear-gradient(135deg, #4B0082 0%, #8A2BE2 100%);
-                margin-left: 25%;
-                color: white;
-            }
+            .stChatMessage.user .stChatMessage.assistant {
+    background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
+    margin-right: 25%;
+    border: 1px solid #D8BFD8;
+    color: #333;  /* This sets a dark text color for better contrast */
+}
+
             
             .stChatMessage.assistant {
                 background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
