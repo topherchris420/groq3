@@ -9,7 +9,7 @@ from pathlib import Path
 PAGE_TITLE = "Vers3Dynamics"
 PAGE_ICON = "🕊"
 IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg") 
-IMAGE_CAPTION = "Lights Off, Vibes On - Choose Dark Mode for Mobile"
+IMAGE_CAPTION = "Developed by Vers3Dynamics"
 DEFAULT_MODEL_INDEX = 2
 APP_NAME = "Mnemosyne"
 APP_TAGLINE = "Your Wellness Health Companion 🌿"
@@ -51,11 +51,60 @@ def load_css(theme="light"):
                 background-color: #1a1a2e;
                 color: #e4e4e4;
             }
+            
+            /* Chat Messages */
+            .stChatMessage {
+                border-radius: 20px;
+                padding: 1.5rem;
+                margin: 1rem 0;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            }
+            
+            .stChatMessage.user {
+                background: linear-gradient(135deg, #4B0082 0%, #8A2BE2 100%);
+                margin-left: 25%;
+                color: white;
+            }
+            
             .stChatMessage.assistant {
                 background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
                 margin-right: 25%;
                 color: #e4e4e4;
                 border: 1px solid #4B0082;
+            }
+            
+            /* Buttons */
+            div.stButton > button:first-child {
+                background: linear-gradient(45deg, #4B0082, #8A2BE2);
+                color: white !important;
+                border-radius: 25px;
+                padding: 0.5rem 1rem;
+                border: none;
+            }
+            
+            /* Loading animation */
+            .progress-message {
+                color: #BA55D3;
+                font-weight: bold;
+            }
+            
+            /* Welcome Card */
+            .welcome-card {
+                text-align: center; 
+                padding: 2rem; 
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                border-radius: 20px; 
+                margin: 2rem 0; 
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                border: 1px solid #4B0082;
+            }
+            
+            /* Info Box */
+            .stInfo {
+                background: #16213e;
+                color: #e4e4e4;
+                border: 1px solid #4B0082;
+                border-radius: 10px;
             }
         </style>
         """, unsafe_allow_html=True)
@@ -66,38 +115,61 @@ def load_css(theme="light"):
             .stApp {
                 background-color: #f5f7fa;
             }
+            
+            /* Chat Messages */
+            .stChatMessage {
+                border-radius: 20px;
+                padding: 1.5rem;
+                margin: 1rem 0;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            
+            .stChatMessage.user {
+                background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
+                margin-left: 25%;
+            }
+            
             .stChatMessage.assistant {
                 background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
                 margin-right: 25%;
                 border: 1px solid #D8BFD8;
-                color: black; /* Ensures chatbot text is black */
             }
-            /* Mobile Specific Styles */
-            @media (max-width: 768px) {
-                .stChatMessage.assistant {
-                    color: black !important; /* Forces black text on mobile */
-                }
+            
+            /* Buttons */
+            div.stButton > button:first-child {
+                background: linear-gradient(45deg, #9370DB, #DA70D6);
+                color: white !important;
+                border-radius: 25px;
+                padding: 0.5rem 1rem;
+                border: none;
+            }
+            
+            /* Loading animation */
+            .progress-message {
+                color: #9370DB;
+                font-weight: bold;
+            }
+            
+            /* Welcome Card */
+            .welcome-card {
+                text-align: center; 
+                padding: 2rem; 
+                background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+                border-radius: 20px; 
+                margin: 2rem 0; 
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                border: 1px solid #D8BFD8;
             }
         </style>
         """, unsafe_allow_html=True)
-
 
 # --- Page Configuration ---
 st.set_page_config(page_icon=PAGE_ICON, layout="wide", page_title=PAGE_TITLE)
 
 # --- Initialize Session State ---
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "system", "content": _get_system_prompt()}]
-
-# Ensure every message has a valid role
-for message in st.session_state.messages:
-    role = message.get("role", "assistant")  # Ensure valid role
-    avatar = "user" if role == "user" else "assistant"  # Avatar must be 'user' or 'assistant'
-
-    with st.chat_message(role, avatar=avatar):
-        st.markdown(message["content"])
-
-
+    system_prompt = _get_system_prompt()
+    st.session_state.messages = [{"role": "system", "content": system_prompt}]
 if "selected_model" not in st.session_state:
     st.session_state.selected_model = None
 if "chat_counter" not in st.session_state:
