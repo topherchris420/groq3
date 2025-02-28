@@ -51,7 +51,6 @@ def load_css(theme="light"):
                 background-color: #1a1a2e;
                 color: #e4e4e4;
             }
-            
             /* Chat Messages */
             .stChatMessage.assistant {
                 background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 100%);
@@ -59,15 +58,42 @@ def load_css(theme="light"):
                 border: 1px solid #ff69b4;
                 color: #333;  /* Ensures text remains readable */
             }
-            
             .stChatMessage.user {
                 background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
                 margin-right: 25%;
                 border: 1px solid #D8BFD8;
                 color: #333;
             }
-            
-            /* Buttons and other elements here ... */
+            /* Buttons */
+            div.stButton > button:first-child {
+                background: linear-gradient(45deg, #4B0082, #8A2BE2);
+                color: white !important;
+                border-radius: 25px;
+                padding: 0.5rem 1rem;
+                border: none;
+            }
+            /* Loading animation */
+            .progress-message {
+                color: #BA55D3;
+                font-weight: bold;
+            }
+            /* Welcome Card */
+            .welcome-card {
+                text-align: center;
+                padding: 2rem;
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                border-radius: 20px;
+                margin: 2rem 0;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                border: 1px solid #4B0082;
+            }
+            /* Info Box */
+            .stInfo {
+                background: #16213e;
+                color: #e4e4e4;
+                border: 1px solid #4B0082;
+                border-radius: 10px;
+            }
         </style>
         """, unsafe_allow_html=True)
     else:  # Light theme
@@ -77,7 +103,6 @@ def load_css(theme="light"):
             .stApp {
                 background-color: #f5f7fa;
             }
-            
             /* Chat Messages */
             .stChatMessage {
                 border-radius: 20px;
@@ -85,54 +110,20 @@ def load_css(theme="light"):
                 margin: 1rem 0;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
-            
             .stChatMessage.user {
                 background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
                 margin-left: 25%;
             }
-            
             .stChatMessage.assistant {
                 background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
                 margin-right: 25%;
                 border: 1px solid #D8BFD8;
+                color: #333;
             }
-            
             /* Buttons */
             div.stButton > button:first-child {
-                background: linear-gradient(45deg, #9370DB, #DA70D6);
-                color: white !important;
-                border-radius: 25px;
-                padding: 0.5rem 1rem;
-                border: none;
-            }
-            
-            /* Loading animation */
-            .progress-message {
-                color: #9370DB;
-                font-weight: bold;
-            }
-            
-            /* Welcome Card */
-            .welcome-card {
-                text-align: center; 
-                padding: 2rem; 
-                background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
-                border-radius: 20px; 
-                margin: 2rem 0; 
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                border: 1px solid #D8BFD8;
-            }
-            
-            /* Mobile Override for Assistant Bubble */
-            @media only screen and (max-width: 768px) {
-                .stChatMessage.assistant, 
-                .stChatMessage.assistant * {
-                    background: #ffb6c1 !important;  /* Light pink background for mobile */
-                    color: #333 !important;         /* Force dark text for readability */
-                }
-            }
-        </style>
-        """, unsafe_allow_html=True)
+                background: linear-grad
+
 
         else:  # Light theme
         # In the else block of load_css for the light theme
