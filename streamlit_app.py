@@ -149,10 +149,21 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-    .stChatMessage.user {
+    st.markdown(
+    """
+    <style>
+    .stChatMessage {
+        border-radius: 20px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
-        margin-left: 25%;
     }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
     
     .stChatMessage.assistant {
         background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
