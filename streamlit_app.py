@@ -105,67 +105,69 @@ def load_css(theme="light"):
         </style>
         """, unsafe_allow_html=True)
     else:  # Light theme
-        st.markdown("""
-        <style>
-            /* Light Theme */
-            .stApp {
-                background-color: #f5f7fa;
-            }
-            
-            /* Chat Messages */
-            .stChatMessage {
-                border-radius: 20px;
-                padding: 1.5rem;
-                margin: 1rem 0;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-            
-            .stChatMessage.user {
-                background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
-                margin-left: 25%;
-            }
-            
-            .stChatMessage.assistant {
-                background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
-                margin-right: 25%;
-                border: 1px solid #D8BFD8;
-            }
-            
-            /* Buttons */
-            div.stButton > button:first-child {
-                background: linear-gradient(45deg, #9370DB, #DA70D6);
-                color: white !important;
-                border-radius: 25px;
-                padding: 0.5rem 1rem;
-                border: none;
-            }
-            
-            /* Loading animation */
-            .progress-message {
-                color: #9370DB;
-                font-weight: bold;
-            }
-            
-            /* Welcome Card */
-            .welcome-card {
-                text-align: center; 
-                padding: 2rem; 
-                background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
-                border-radius: 20px; 
-                margin: 2rem 0; 
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                border: 1px solid #D8BFD8;
-            }
-            
-            /* Mobile Override for Assistant Bubble */
-            @media only screen and (max-width: 768px) {
-                .stChatMessage.assistant {
-                    background: #ffb6c1; /* Light pink background for mobile */
-                    color: #333;       /* Ensures text remains legible */
-                }
-            }
-        </style>
-        """, unsafe_allow_html=True)
+        # In the else block of load_css for the light theme
+st.markdown("""
+<style>
+    /* Light Theme */
+    .stApp {
+        background-color: #f5f7fa;
+    }
+    
+    /* Chat Messages */
+    .stChatMessage {
+        border-radius: 20px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stChatMessage.user {
+        background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 100%);
+        margin-left: 25%;
+    }
+    
+    .stChatMessage.assistant {
+        background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
+        margin-right: 25%;
+        border: 1px solid #D8BFD8;
+    }
+    
+    /* Buttons */
+    div.stButton > button:first-child {
+        background: linear-gradient(45deg, #9370DB, #DA70D6);
+        color: white !important;
+        border-radius: 25px;
+        padding: 0.5rem 1rem;
+        border: none;
+    }
+    
+    /* Loading animation */
+    .progress-message {
+        color: #9370DB;
+        font-weight: bold;
+    }
+    
+    /* Welcome Card */
+    .welcome-card {
+        text-align: center; 
+        padding: 2rem; 
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+        border-radius: 20px; 
+        margin: 2rem 0; 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid #D8BFD8;
+    }
+    
+    /* Mobile Override for Assistant Bubble */
+    @media only screen and (max-width: 768px) {
+        .stChatMessage.assistant {
+            background: #ffb6c1 !important;  /* Light pink background for mobile */
+            color: #333 !important;         /* Force dark text for readability */
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
+
 
 
 # --- Page Configuration ---
