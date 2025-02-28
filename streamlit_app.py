@@ -54,6 +54,15 @@ def load_css(theme="light"):
             
             /* Chat Messages */
             .stChatMessage.assistant {
+    background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 100%);
+    margin-right: 25%;
+    border: 1px solid #ff69b4;
+    color: #333;  /* Ensures text remains readable */
+}
+
+
+            
+            .stChatMessage.user {
     background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
     margin-right: 25%;
     border: 1px solid #D8BFD8;
@@ -61,19 +70,11 @@ def load_css(theme="light"):
 }
 
             
-            .stChatMessage.user .stChatMessage.assistant {
-    background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
+            .stChatMessage.assistant {
+    background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 100%);
     margin-right: 25%;
-    border: 1px solid #D8BFD8;
-    color: #333;  /* This sets a dark text color for better contrast */
-}
-
-            
-            .stChatMessage.assistant.stChatMessage.assistant {
-    background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
-    margin-right: 25%;
-    border: 1px solid #D8BFD8;
-    color: #333;  /* This sets a dark text color for better contrast */
+    border: 1px solid #ff69b4;
+    color: #333;  /* Ensures text remains readable */
 }
 
             
