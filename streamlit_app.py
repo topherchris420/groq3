@@ -42,6 +42,7 @@ def _get_system_prompt() -> str:
         return "You are Mnemosyne, a health and wellness AI assistant developed by Vers3Dynamics. Your goal is to provide helpful, accurate health information while being supportive and empathetic."
 
 # --- Custom CSS ---
+# --- Custom CSS ---
 def load_css(theme="light"):
     if theme == "dark":
         st.markdown("""
@@ -51,64 +52,14 @@ def load_css(theme="light"):
                 background-color: #1a1a2e;
                 color: #e4e4e4;
             }
-            
-            /* Chat Messages */
-            .stChatMessage {
-                border-radius: 20px;
-                padding: 1.5rem;
-                margin: 1rem 0;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            }
-            
-            .stChatMessage.user {
-                background: linear-gradient(135deg, #4B0082 0%, #8A2BE2 100%);
-                margin-left: 25%;
-                color: white;
-            }
-            
             .stChatMessage.assistant {
                 background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
                 margin-right: 25%;
                 color: #e4e4e4;
                 border: 1px solid #4B0082;
             }
-            
-            /* Buttons */
-            div.stButton > button:first-child {
-                background: linear-gradient(45deg, #4B0082, #8A2BE2);
-                color: white !important;
-                border-radius: 25px;
-                padding: 0.5rem 1rem;
-                border: none;
-            }
-            
-            /* Loading animation */
-            .progress-message {
-                color: #BA55D3;
-                font-weight: bold;
-            }
-            
-            /* Welcome Card */
-            .welcome-card {
-                text-align: center; 
-                padding: 2rem; 
-                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-                border-radius: 20px; 
-                margin: 2rem 0; 
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-                border: 1px solid #4B0082;
-            }
-            
-            /* Info Box */
-            .stInfo {
-                background: #16213e;
-                color: #e4e4e4;
-                border: 1px solid #4B0082;
-                border-radius: 10px;
-            }
         </style>
         """, unsafe_allow_html=True)
-       
     else:  # Light theme
         st.markdown("""
         <style>
@@ -130,6 +81,7 @@ def load_css(theme="light"):
             }
         </style>
         """, unsafe_allow_html=True)
+
 
 # --- Page Configuration ---
 st.set_page_config(page_icon=PAGE_ICON, layout="wide", page_title=PAGE_TITLE)
