@@ -90,9 +90,13 @@ if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": _get_system_prompt()}]
 
 # Ensure every message has a valid role
-for msg in st.session_state.messages:
-    if "role" not in msg:
-        msg["role"] = "assistant"  # Default fallback
+for message in st.session_state.messages:
+    role = message.get("role", "assistant")  # Ensure valid role
+    avatar = "user" if role == "user" else "assistant"  # Avatar must be 'user' or 'assistant'
+
+    with st.chat_message(role, avatar=avatar):
+        st.markdown(message["content"])
+
 
 if "selected_model" not in st.session_state:
     st.session_state.selected_model = None
