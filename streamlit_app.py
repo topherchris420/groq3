@@ -134,7 +134,7 @@ def load_css(theme="light"):
         </style>
         """, unsafe_allow_html=True)
 
-    else:  # Light theme
+        else:  # Light theme
         # In the else block of load_css for the light theme
         st.markdown("""
         <style>
