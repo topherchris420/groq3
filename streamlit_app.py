@@ -54,29 +54,20 @@ def load_css(theme="light"):
             
             /* Chat Messages */
             .stChatMessage.assistant {
-    background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 100%);
-    margin-right: 25%;
-    border: 1px solid #ff69b4;
-    color: #333;  /* Ensures text remains readable */
-}
-
-
+                background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 100%);
+                margin-right: 25%;
+                border: 1px solid #ff69b4;
+                color: #333;  /* Ensures text remains readable */
+            }
             
             .stChatMessage.user {
-    background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
-    margin-right: 25%;
-    border: 1px solid #D8BFD8;
-    color: #333;  /* This sets a dark text color for better contrast */
-}
-
+                background: linear-gradient(135deg, #F0F8FF 0%, #E6E6FA 100%);
+                margin-right: 25%;
+                border: 1px solid #D8BFD8;
+                color: #333;
+            }
             
-            .stChatMessage.assistant {
-    background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 100%);
-    margin-right: 25%;
-    border: 1px solid #ff69b4;
-    color: #333;  /* Ensures text remains readable */
-}
-
+            /* Duplicate assistant definition removed for clarity */
             
             /* Buttons */
             div.stButton > button:first-child {
@@ -165,8 +156,17 @@ def load_css(theme="light"):
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 border: 1px solid #D8BFD8;
             }
+            
+            /* Mobile Override for Assistant Bubble */
+            @media only screen and (max-width: 768px) {
+                .stChatMessage.assistant {
+                    background: #ffb6c1; /* Light pink background for mobile */
+                    color: #333;       /* Ensures text remains legible */
+                }
+            }
         </style>
         """, unsafe_allow_html=True)
+
 
 # --- Page Configuration ---
 st.set_page_config(page_icon=PAGE_ICON, layout="wide", page_title=PAGE_TITLE)
