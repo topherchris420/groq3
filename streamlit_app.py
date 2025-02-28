@@ -240,7 +240,13 @@ models = {
 }
 
 def display_welcome_message():
-    if st.session_state.show_welcome:
+    for message in st.session_state.messages:
+    role = message.get("role", "assistant")  # Ensure valid role
+    avatar = "user" if role == "user" else "assistant"  # Avatar must be 'user' or 'assistant'
+
+    with st.chat_message(role, avatar=avatar):
+        st.markdown(message["content"])
+
         welcome_card = st.container()
         with welcome_card:
             st.markdown(
