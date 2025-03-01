@@ -550,7 +550,7 @@ else:
                 yield chunk.choices[0].delta.content
 
     # Chat Input and Response Generation
-    user_input = st.chat_input(f"Hi, I'm {APP_NAME}💜. Ask me about early signs of mental health conditions.", key="user_input")
+    user_input = st.chat_input(f"Hi, I'm {APP_NAME}💜.", key="user_input")
     if user_input:
         st.session_state.chat_counter += 1
         st.session_state.messages.append({"role": "user", "content": user_input})
