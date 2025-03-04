@@ -516,7 +516,7 @@ else:
                       box-shadow: 0 4px 6px rgba(0, 0, 0, {"0.3" if st.session_state.theme == "dark" else "0.1"});
                       border: 1px solid {"#4B0082" if st.session_state.theme == "dark" else "#E6E6FA"};
                       margin-top: 1rem;'>
-                <h3 style='color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"}; margin-bottom: 0.5rem;'>💡 Mental Health Prompts</h3>
+                <h3 style='color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"}; margin-bottom: 0.5rem;'>💡 Mental Health Ideas</h3>
             </div>
         """, unsafe_allow_html=True)
         
