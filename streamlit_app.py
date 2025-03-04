@@ -494,19 +494,24 @@ else:
         """, unsafe_allow_html=True)
 
         # Audio file path handling with better error handling
-        audio_path = "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3"
-        script_dir = os.path.dirname(os.path.realpath(__file__))
-        full_audio_path = os.path.join(script_dir, audio_path)
-        
+        with st.sidebar:
+    # Audio file details investigation
+    audio_filename = "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3"
+    audio_path = os.path.join(os.path.dirname(__file__), audio_filename)
+    
+    # Explicitly use a button to control audio
+    st.markdown("🔊 Welcome Audio Message")
+    
+    # Add a play button that only triggers when clicked
+    if st.button("▶️ Play Welcome Audio"):
         try:
+            # Verify file exists before attempting to play
             if os.path.exists(audio_path):
-                st.audio(audio_path, format="audio/mp3", start_time=0)
-            elif os.path.exists(full_audio_path):
-                st.audio(full_audio_path, format="audio/mp3", start_time=0)
+                st.audio(audio_path, format="audio/mp3")
             else:
-                st.warning("Audio file not found. Check path configuration.")
+                st.warning(f"Audio file not found: {audio_path}")
         except Exception as e:
-            st.warning(f"Could not load audio: {e}")
+            st.error(f"Error playing audio: {e}")
             
         # Quick prompt suggestions with mental health focus
         st.markdown(f"""
