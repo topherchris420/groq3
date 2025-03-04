@@ -482,20 +482,7 @@ else:
             st.rerun()
 
         # Enhanced Audio Player in Sidebar
-        st.markdown(f"""
-            <div style='background: {"#16213e" if st.session_state.theme == "dark" else "white"}; 
-                      padding: 1rem; 
-                      border-radius: 15px; 
-                      box-shadow: 0 4px 6px rgba(0, 0, 0, {"0.3" if st.session_state.theme == "dark" else "0.1"});
-                      border: 1px solid {"#4B0082" if st.session_state.theme == "dark" else "#E6E6FA"};
-                      margin-top: 1rem;'>
-                <h3 style='color: {"#BA55D3" if st.session_state.theme == "dark" else "#9370DB"}; margin-bottom: 0.5rem;'>🎵 Welcome Message</h3>
-            </div>
-        """, unsafe_allow_html=True)
-
-        # Audio file path handling with better error handling
-        with st.sidebar:
-    # Audio file details investigation
+       
     audio_filename = "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3"
     audio_path = os.path.join(os.path.dirname(__file__), audio_filename)
     
