@@ -8,7 +8,7 @@ import time
 
 # --- Configuration ---
 PAGE_TITLE = "Vers3Dynamics"
-PAGE_ICON = "👩‍⚕️" 
+PAGE_ICON = "👩‍⚕️"
 IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg") 
 IMAGE_CAPTION = "You Are the Master of Your Fate"
 DEFAULT_MODEL_INDEX = 2
@@ -31,7 +31,6 @@ LOADING_MESSAGES = [
 
 # --- Enhanced System Prompt ---
 def _get_system_prompt() -> str:
-    """Retrieves the system prompt with enhanced mental health focus."""
     current_dir = os.path.dirname(__file__)
     file_path = os.path.join(current_dir, "system_prompt.txt")
     try:
@@ -51,7 +50,6 @@ def _get_system_prompt() -> str:
 
 # --- Enhanced CSS with Accessibility ---
 def load_css(theme="light"):
-    """Improved CSS with better accessibility and mobile responsiveness."""
     if theme == "dark":
         st.markdown("""
         <style>
@@ -59,7 +57,6 @@ def load_css(theme="light"):
                 background-color: #1a1a2e;
                 color: #ffffff !important;
             }
-            /* Enhanced mobile readability */
             @media (max-width: 768px) {
                 body, p, li, div, span, .stMarkdown p {
                     font-size: 18px !important;
@@ -69,7 +66,6 @@ def load_css(theme="light"):
                 h2 { font-size: 24px !important; }
                 .stChatMessage { padding: 1rem !important; }
             }
-            /* High contrast chat messages */
             .stChatMessage {
                 border-radius: 15px;
                 padding: 1.5rem;
@@ -85,11 +81,9 @@ def load_css(theme="light"):
                 margin-right: 15%;
                 border: 2px solid #4B0082;
             }
-            /* Accessibility: High contrast text */
             .stChatMessage * {
                 color: #ffffff !important;
             }
-            /* Buttons with larger tap areas */
             div.stButton > button {
                 background: linear-gradient(45deg, #4B0082, #8A2BE2);
                 color: white !important;
@@ -109,7 +103,6 @@ def load_css(theme="light"):
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
                 border: 2px solid #4B0082;
             }
-            /* Accessibility: Focus states */
             button:focus, select:focus {
                 outline: 3px solid #BA55D3 !important;
             }
@@ -190,6 +183,8 @@ if "theme" not in st.session_state:
     st.session_state.theme = "light"
 if "mood_log" not in st.session_state:
     st.session_state.mood_log = []
+if "audio_played" not in st.session_state:
+    st.session_state.audio_played = False
 
 # Apply CSS
 load_css(st.session_state.theme)
@@ -202,6 +197,7 @@ def clear_chat_history():
     st.session_state.messages = [{"role": "system", "content": _get_system_prompt()}]
     st.session_state.chat_counter = 0
     st.session_state.show_welcome = True
+    st.session_state.audio_played = False
 
 def dismiss_welcome():
     st.session_state.show_welcome = False
@@ -212,7 +208,7 @@ def use_quick_prompt(prompt):
     st.session_state.chat_counter += 1
     return prompt
 
-# --- Model Definitions (unchanged) ---
+# --- Model Definitions ---
 models = {
     "gemma-7b-it": {"name": "Gemma-7b-it", "tokens": 8192, "developer": "Google", "description": "Fast model for mental health pattern recognition"},
     "llama2-70b-4096": {"name": "LLaMA2-70b-chat", "tokens": 4096, "developer": "Meta", "description": "Strong reasoning for complex mental health factors"},
@@ -221,7 +217,7 @@ models = {
     "mixtral-8x7b-32768": {"name": "Mixtral-8x7b-Instruct-v0.1", "tokens": 32768, "developer": "Mistral", "description": "Excellent for analyzing complex mental health data"},
 }
 
-# --- New Mood Tracking Feature ---
+# --- Mood Tracking Feature ---
 def log_mood():
     with st.sidebar.expander("🩺 Mood Tracker", expanded=False):
         mood = st.selectbox("How are you feeling today?", ["Great", "Good", "Okay", "Low", "Very Low"])
@@ -269,7 +265,7 @@ except Exception as e:
     st.error(f"Error initializing Groq client: {e}")
     st.stop()
 
-# Sidebar Enhancements
+# Sidebar Enhancements with Audio
 with st.sidebar:
     st.markdown(f"<h2 style='color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};'>🛠️ Control Center</h2>", unsafe_allow_html=True)
     
@@ -295,6 +291,21 @@ with st.sidebar:
     if st.button("Reset Chat"):
         clear_chat_history()
         st.rerun()
+
+    # Audio Player
+    audio_filename = "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3"
+    audio_path = os.path.join(os.path.dirname(__file__), audio_filename)
+    
+    st.markdown(f"<h3 style='color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};'>🔊 Welcome Message</h3>", unsafe_allow_html=True)
+    if st.button("▶️ Play Introduction", key="play_audio"):
+        try:
+            if os.path.exists(audio_path):
+                st.audio(audio_path, format="audio/mp3")
+                st.session_state.audio_played = True
+            else:
+                st.warning(f"Audio file not found at: {audio_path}")
+        except Exception as e:
+            st.error(f"Error playing audio: {e}")
 
     # Mood tracker
     log_mood()
