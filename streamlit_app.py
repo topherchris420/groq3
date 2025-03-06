@@ -343,7 +343,7 @@ else:
             if chunk.choices[0].delta.content:
                 yield chunk.choices[0].delta.content
 
-    user_input = st.chat_input("Ask me anything about mental health...")
+    user_input = st.chat_input("hello my name is Mnemosyne 👋...")
     if user_input:
         st.session_state.chat_counter += 1
         st.session_state.messages.append({"role": "user", "content": user_input})
