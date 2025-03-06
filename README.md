@@ -1,6 +1,6 @@
 # Groq Vers3Dynamics Streamlit App
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://groqhealth.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)][(https://mnemosynehealth.streamlit.app/)]
 
 ![Demo App Screenshot](images/groq_demo.png)
 
