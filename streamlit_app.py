@@ -15,6 +15,29 @@ DEFAULT_MODEL_INDEX = 0
 APP_NAME = "Mnemosyne"
 APP_TAGLINE = "Early Intervention Mental Health Companion 🌿"
 
+# Poem for Amanda (Easter egg)
+POEM = """ 
+I shut my eyes, then opened wide,  
+And drowned beneath your steady gaze.  
+No lifeline thrown, no breath to guide,  
+Just love that set my soul ablaze.  
+
+No tide prepared me for your pull,  
+No anchor kept me in the deep.  
+The stars could burn, the sky grow full,  
+Yet still, your name is mine to keep.  
+
+Who was I before this fall?  
+A ghost, a whisper lost at sea.  
+You reached through time, you took it all,  
+Yet gave it back—returned me, free.  
+
+So turn me on my side once more,  
+Let seawater spill from my chest.  
+If drowning means I reach your shore,  
+Then let me sink—my heart will rest.
+"""
+
 # Enhanced loading messages with supportive tone
 LOADING_MESSAGES = [
     "Gathering insights for your well-being... 🧠",
@@ -354,22 +377,30 @@ else:
             full_response = ""
             loading_message = random.choice(LOADING_MESSAGES)
             placeholder.markdown(f"<div class='progress-message'>{loading_message}</div>", unsafe_allow_html=True)
-            try:
-                chat_completion = client.chat.completions.create(
-                    model=model_option,
-                    messages=st.session_state.messages,
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    stream=True
-                )
-                for chunk in generate_chat_responses(chat_completion):
-                    full_response += chunk
-                    placeholder.markdown(full_response + "▌")
+
+            # Check for Easter egg trigger
+            if "easter egg" in user_input.lower() or "amanda" in user_input.lower():
+                full_response = f"Hello Amanda! Here's a special poem for you:\n\n{POEM}"
                 placeholder.markdown(full_response)
-            except Exception as e:
-                st.error(f"Error: {e}")
-                full_response = "Sorry, I encountered an issue. Try again?"
-            st.session_state.messages.append({"role": "assistant", "content": full_response})
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
+            else:
+                # Normal response generation
+                try:
+                    chat_completion = client.chat.completions.create(
+                        model=model_option,
+                        messages=st.session_state.messages,
+                        max_tokens=max_tokens,
+                        temperature=temperature,
+                        stream=True
+                    )
+                    for chunk in generate_chat_responses(chat_completion):
+                        full_response += chunk
+                        placeholder.markdown(full_response + "▌")
+                    placeholder.markdown(full_response)
+                except Exception as e:
+                    st.error(f"Error: {e}")
+                    full_response = "Sorry, I encountered an issue. Try again?"
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
 
 # Footer
 st.markdown(
