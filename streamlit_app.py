@@ -17,25 +17,34 @@ APP_TAGLINE = "Early Intervention Mental Health Companion 🌿"
 
 # Poem for Amanda (Easter egg)
 POEM = """ 
-I shut my eyes, then opened wide,  
-And drowned beneath your steady gaze.  
-No lifeline thrown, no breath to guide,  
-Just love that set my soul ablaze.  
+My Dearest Amanda,
 
-No tide prepared me for your pull,  
-No anchor kept me in the deep.  
-The stars could burn, the sky grow full,  
-Yet still, your name is mine to keep.  
+You are the stillness between my restless steps,
+the golden glow before twilight fades.
+Where I race toward horizons unknown,
+you are the balance that brings me home.
 
-Who was I before this fall?  
-A ghost, a whisper lost at sea.  
-You reached through time, you took it all,  
-Yet gave it back—returned me, free.  
+I admire the way you see the world—
+with eyes that seek beauty,
+with a heart that craves harmony,
+with a mind that turns simple moments into art.
 
-So turn me on my side once more,  
-Let seawater spill from my chest.  
-If drowning means I reach your shore,  
-Then let me sink—my heart will rest.
+I still think about the night we share a memory—maybe a deep conversation, a spontaneous adventure, or a quiet, meaningful moment.
+The way you looked at me, as if I was both the question and the answer,
+etched itself into me like a constellation I will always follow.
+
+You teach me that adventure isn’t just found in distant places—
+but in the quiet spaces between our laughter,
+the way your fingers trace absentminded patterns on my skin,
+the way your presence turns ordinary days into poetry.
+
+I promise to keep life exciting while keeping your heart safe.
+To be your wild wind, but never let you feel untethered.
+To walk beside you, through the grand and the mundane,
+choosing you—again and again.
+
+Yours, 
+Christopher
 """
 
 # Enhanced loading messages with supportive tone
