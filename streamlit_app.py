@@ -395,7 +395,7 @@ else:
 
             # Check for Easter egg trigger
             if "easter egg" in user_input.lower() or "amanda" in user_input.lower():
-                full_response = f"hi amanda! here's a special poem from chris for you:\n\n{POEM}"
+                full_response = f"oh amanda, here's a special poem from chris for amanda:\n\n{POEM}"
                 placeholder.markdown(full_response)
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
             else:
