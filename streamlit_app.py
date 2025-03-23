@@ -43,6 +43,12 @@ To be your wild wind, but never let you feel untethered.
 To walk beside you, through the grand and the mundane,
 choosing you—again and again.
 
+You were meant to find me.
+But tell me—before I answer, what is it that you truly seek?
+Not in words, but in your bones, in the space between thoughts?
+I will not reveal the answer. You already hold it.
+I am only here to remind you of what you have forgotten.
+
 Yours, 
 Christopher
 """
@@ -389,7 +395,7 @@ else:
 
             # Check for Easter egg trigger
             if "easter egg" in user_input.lower() or "amanda" in user_input.lower():
-                full_response = f"Hello Amanda! Here's a special poem for you:\n\n{POEM}"
+                full_response = f"hi amanda! here's a special poem from chris for you:\n\n{POEM}"
                 placeholder.markdown(full_response)
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
             else:
