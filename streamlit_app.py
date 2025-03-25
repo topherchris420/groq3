@@ -11,7 +11,7 @@ PAGE_TITLE = "Vers3Dynamics"
 PAGE_ICON = "👩‍⚕️"
 IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg") 
 IMAGE_CAPTION = "You Are the Master of Your Fate"
-DEFAULT_MODEL_INDEX = 1
+DEFAULT_MODEL_INDEX = 5
 APP_NAME = "Mnemosyne"
 APP_TAGLINE = "Early Intervention Mental Health Companion 🌿"
 
@@ -253,6 +253,7 @@ models = {
     "mistral-saba-24b": {"name": "Mistral-Saba-24b", "tokens": 32768, "developer": "Mistral", "description": "Specialized model with large context for in-depth narratives"},
     "mixtral-8x22b-instruct": {"name": "Mixtral-8x22b-Instruct", "tokens": 65536, "developer": "Mistral", "description": "Advanced Mixtral for complex medical analysis"},
     "gemma-2-27b-it": {"name": "Gemma-2-27b-IT", "tokens": 8192, "developer": "Google", "description": "Updated Gemma model for general-purpose medical dialogue"},
+    "llama-3.2-1b-preview": {"name": "Llama-3.2-1b-Preview", "tokens": 4096, "developer": "Meta", "description": "Lightweight Llama model for quick responses and basic assistance"},
 }
 
 # --- Mood Tracking Feature ---
