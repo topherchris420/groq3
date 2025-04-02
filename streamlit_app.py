@@ -10,13 +10,14 @@ import pandas as pd # Added for mood chart data handling
 
 # --- Configuration ---
 PAGE_TITLE = "Vers3Dynamics"
-PAGE_ICON = "👩‍⚕️" 
+PAGE_ICON = "🧠✨" # Enhanced icon
 IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg")
 IMAGE_CAPTION = "You Are the Master of Your Fate"
 DEFAULT_MODEL_INDEX = 5 # Keep your default
 APP_NAME = "Mnemosyne"
-APP_TAGLINE = "Your Reflective Mental Wellness Companion 🌱" 
+APP_TAGLINE = "Your Reflective Mental Wellness Companion 🌱" # Slightly tweaked tagline
 
+# Poem remains the same
 POEM = """
 amanda,
 
@@ -71,26 +72,31 @@ LOADING_MESSAGES = [
 ]
 LOADING_INDICATORS = ["⏳", "💭", "💡", "✨", "🌀", "🔹", "🔸"] # For visual feedback
 
-# --- System Prompt Function (No changes needed here) ---
+# --- System Prompt Function ---
 def _get_system_prompt() -> str:
-    # ... (keep your existing function) ...
-    current_dir = os.path.dirname(__file__)
+    current_dir = os.path.dirname(os.path.abspath(__file__)) # Use abspath for reliability
     file_path = os.path.join(current_dir, "system_prompt.txt")
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             return file.read()
     except FileNotFoundError:
-        # Using a shorter fallback here for brevity in the example
-        return """You are Mnemosyne, an empathetic AI by Vers3Dynamics for mental wellness support."""
+        st.warning("⚠️ system_prompt.txt not found. Using default prompt.")
+        return """You are Mnemosyne, an empathetic mental health AI companion by Vers3Dynamics.
+        Your purpose is to assist users in recognizing early signs of anxiety, depression, and psychosis,
+        offering evidence-based insights and early intervention strategies. Approach mental health holistically,
+        considering biological (e.g., sleep, genetics), psychological (e.g., thought patterns, stress),
+        and social (e.g., relationships, isolation) factors. Provide supportive, non-judgmental guidance,
+        avoiding diagnosis. Encourage users to seek professional help when signs suggest it, and offer
+        practical, actionable steps for self-care and awareness."""
     except Exception as e:
         st.error(f"Error reading system prompt file: {e}")
-        return """Fallback: You are Mnemosyne, here to support mental health awareness."""
+        return """Fallback: You are Mnemosyne, here to support mental health awareness with empathy."""
 
 # --- Greatly Enhanced CSS ---
 def load_css(theme="light"):
     # Import Google Font
     font_family = "'Montserrat', sans-serif"
-    secondary_font = "'Dancing Script', cursive" # Example decorative font
+    # secondary_font = "'Dancing Script', cursive" # Example decorative font
 
     # Common Styles
     common_css = f"""
@@ -192,18 +198,23 @@ def load_css(theme="light"):
          /* Sidebar Styling */
         [data-testid="stSidebar"] {{
             padding: 1.5rem 1rem;
-            border-radius: 15px; /* Apply consistent border-radius */
-            box-shadow: 3px 0px 15px rgba(0,0,0,0.05); /* Subtle shadow */
+            /* Optional: Add subtle background pattern or border */
+            /* background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.02) 75%, transparent 75%, transparent); */
+            /* background-size: 30px 30px; */
         }}
 
          /* Input fields */
         .stTextInput > div > div > input, .stTextArea > div > div > textarea {{
             border-radius: 10px;
             padding: 10px 12px;
+            border: 1px solid #ced4da; /* Default border */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }}
          /* Focus indicator */
         button:focus, select:focus, input:focus, textarea:focus {{
             outline-offset: 2px;
+            /* Custom focus ring using box-shadow if outline is problematic */
+             /* box-shadow: 0 0 0 3px rgba(147, 112, 219, 0.5); */
         }}
     </style>
     """
@@ -215,20 +226,22 @@ def load_css(theme="light"):
             .stApp { background-color: #12121f; color: #e1e1e1 !important; }
             h1, h2, h3, h4, h5, h6 { color: #ffffff; }
              /* Sidebar */
-            [data-testid="stSidebar"] { background-color: #1a1a2e; }
+            [data-testid="stSidebar"] { background-color: #1a1a2e; box-shadow: 3px 0px 15px rgba(0,0,0,0.2); }
              /* Chat Bubbles */
-            .stChatMessage.user { background: linear-gradient(135deg, #483D8B 0%, #6A5ACD 100%); margin-left: 10%; }
-            .stChatMessage.assistant { background: linear-gradient(135deg, #212940 0%, #2d3748 100%); border: 1px solid #483D8B; margin-right: 10%; }
+            .stChatMessage.user { background: linear-gradient(135deg, #483D8B 0%, #6A5ACD 100%); margin-left: 10%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
+            .stChatMessage.assistant { background: linear-gradient(135deg, #212940 0%, #2d3748 100%); border: 1px solid #483D8B; margin-right: 10%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
             .stChatMessage * { color: #ffffff !important; }
              /* Buttons */
-            div.stButton > button, .stDownloadButton > button { background: linear-gradient(45deg, #6A5ACD, #8A2BE2); color: white !important; }
+            div.stButton > button, .stDownloadButton > button { background: linear-gradient(45deg, #6A5ACD, #8A2BE2); color: white !important; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); }
+            div.stButton > button:hover, .stDownloadButton > button:hover { box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); }
              /* Progress message */
             .progress-message { color: #BE93FD; }
              /* Welcome Card */
-            .welcome-card { background: linear-gradient(145deg, #1a1a2e 0%, #1f1f35 100%); border: 1px solid #483D8B; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); }
+            .welcome-card { background: linear-gradient(145deg, #1a1a2e 0%, #1f1f35 100%); border: 1px solid #483D8B; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); }
              /* Input fields */
             .stTextInput > div > div > input, .stTextArea > div > div > textarea { background-color: #2d3748; color: #e1e1e1; border: 1px solid #4a5568; }
-             /* Focus */
+            .stTextInput > div > div > input:focus, .stTextArea > div > div > textarea:focus { border-color: #BE93FD; box-shadow: 0 0 5px rgba(190, 147, 253, 0.5); }
+             /* Focus Ring */
             button:focus, select:focus, input:focus, textarea:focus { outline: 3px solid #BE93FD !important; }
              /* Links */
             a { color: #BE93FD; }
@@ -241,20 +254,22 @@ def load_css(theme="light"):
             .stApp { background-color: #f8f9fa; color: #212529 !important; }
             h1, h2, h3, h4, h5, h6 { color: #343a40; }
              /* Sidebar */
-            [data-testid="stSidebar"] { background-color: #ffffff; }
+            [data-testid="stSidebar"] { background-color: #ffffff; box-shadow: 3px 0px 15px rgba(0,0,0,0.05); }
              /* Chat Bubbles */
-            .stChatMessage.user { background: linear-gradient(135deg, #e7eaf6 0%, #d2dcfb 100%); margin-left: 10%; border: 1px solid #c7d1f7; }
-            .stChatMessage.assistant { background: linear-gradient(135deg, #fdfdff 0%, #f0f4ff 100%); border: 1px solid #dcdcdc; margin-right: 10%; }
+            .stChatMessage.user { background: linear-gradient(135deg, #e7eaf6 0%, #d2dcfb 100%); margin-left: 10%; border: 1px solid #c7d1f7; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); }
+            .stChatMessage.assistant { background: linear-gradient(135deg, #fdfdff 0%, #f0f4ff 100%); border: 1px solid #dcdcdc; margin-right: 10%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06); }
             .stChatMessage * { color: #212529 !important; }
              /* Buttons */
-            div.stButton > button, .stDownloadButton > button { background: linear-gradient(45deg, #9370DB, #B886FA); color: white !important; }
+            div.stButton > button, .stDownloadButton > button { background: linear-gradient(45deg, #9370DB, #B886FA); color: white !important; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+             div.stButton > button:hover, .stDownloadButton > button:hover { box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
              /* Progress message */
             .progress-message { color: #8A2BE2; }
              /* Welcome Card */
-            .welcome-card { background: linear-gradient(145deg, #ffffff 0%, #f5f7fa 100%); border: 1px solid #e0e0e0; }
+            .welcome-card { background: linear-gradient(145deg, #ffffff 0%, #f5f7fa 100%); border: 1px solid #e0e0e0; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); }
              /* Input fields */
             .stTextInput > div > div > input, .stTextArea > div > div > textarea { background-color: #ffffff; color: #212529; border: 1px solid #ced4da; }
-             /* Focus */
+            .stTextInput > div > div > input:focus, .stTextArea > div > div > textarea:focus { border-color: #B886FA; box-shadow: 0 0 5px rgba(184, 134, 250, 0.5); }
+             /* Focus Ring */
             button:focus, select:focus, input:focus, textarea:focus { outline: 3px solid #B886FA !important; }
              /* Links */
             a { color: #8A2BE2; }
@@ -266,7 +281,7 @@ def load_css(theme="light"):
 # --- Page Configuration ---
 st.set_page_config(page_icon=PAGE_ICON, layout="wide", page_title=PAGE_TITLE, initial_sidebar_state="expanded")
 
-# --- Session State Initialization (Added mood_chart_data) ---
+# --- Session State Initialization ---
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": _get_system_prompt()}]
 if "selected_model" not in st.session_state:
@@ -279,7 +294,7 @@ if "theme" not in st.session_state:
     st.session_state.theme = "light" # Default to light
 if "mood_log" not in st.session_state:
     st.session_state.mood_log = []
-if "audio_played" not in st.session_state:
+if "audio_played" not in st.session_state: # Kept but audio button removed
     st.session_state.audio_played = False
 
 # Apply CSS based on session state theme
@@ -291,7 +306,9 @@ def icon(emoji: str):
     st.write(f'<span style="font-size: 60px; line-height: 1; vertical-align: middle;">{emoji}</span>', unsafe_allow_html=True)
 
 def clear_chat_history():
-    st.session_state.messages = [{"role": "system", "content": _get_system_prompt()}]
+    # Keep system prompt, clear others
+    system_prompt = st.session_state.messages[0] if st.session_state.messages and st.session_state.messages[0]['role'] == 'system' else {"role": "system", "content": _get_system_prompt()}
+    st.session_state.messages = [system_prompt]
     st.session_state.chat_counter = 0
     st.session_state.show_welcome = True
     st.session_state.audio_played = False
@@ -304,9 +321,10 @@ def use_quick_prompt(prompt):
     st.session_state.show_welcome = False
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.session_state.chat_counter += 1
-    return prompt
+    # Don't return prompt here, just modify state and rerun
+    # return prompt
 
-# --- Model Definitions (No changes needed) ---
+# --- Model Definitions ---
 models = {
     "llama-3.3-70b-versatile": {"name": "Llama-3.3-70b-Versatile", "tokens": 8192, "developer": "Meta", "description": "Latest Llama model for versatile, detailed medical responses"},
     "Llama3-8b-8192": {"name": "Llama3-8b-8192", "tokens": 8192, "developer": "Meta", "description": "Efficient Llama model for fast, accurate medical insights"},
@@ -318,12 +336,15 @@ models = {
 
 # --- Enhanced Mood Tracking Feature with Chart ---
 def log_mood():
-    with st.sidebar.expander("📊 Mood Tracker", expanded=False): # Added chart icon
+    # Indentation level 1 (inside function)
+    with st.sidebar.expander("📊 Mood Tracker", expanded=False):
+        # Indentation level 2 (inside 'with')
         mood_options = {"Great": 5, "Good": 4, "Okay": 3, "Low": 2, "Very Low": 1}
         mood_selection = st.selectbox("How are you feeling today?", options=list(mood_options.keys()))
-        notes = st.text_area("Any notes? (e.g., sleep, stress)", height=80) # Slightly smaller
+        notes = st.text_area("Any notes? (e.g., sleep, stress)", height=80)
 
-        if st.button("📝 Log Mood"): # Added icon
+        if st.button("📝 Log Mood", use_container_width=True): # Use container width for consistency
+            # Indentation level 3 (inside 'if')
             mood_value = mood_options[mood_selection]
             st.session_state.mood_log.append({
                 "date": pd.to_datetime(time.strftime("%Y-%m-%d %H:%M")), # Use datetime object
@@ -332,48 +353,66 @@ def log_mood():
                 "notes": notes
             })
             st.success("Mood logged! 🌱")
-            st.rerun() # Rerun to update chart immediately
+            # Removed rerun here, chart updates automatically when data changes
 
         if st.session_state.mood_log:
+            # Indentation level 3 (inside 'if')
             st.markdown("---") # Visual separator
             st.subheader("📈 Recent Mood Trend")
 
             # Prepare data for chart
             df_mood = pd.DataFrame(st.session_state.mood_log)
+            # Ensure 'date' column is datetime type if loading from state later
+            df_mood['date'] = pd.to_datetime(df_mood['date'])
             df_mood = df_mood.sort_values(by="date")
 
             # Create Plotly chart
             if len(df_mood) >= 2: # Need at least 2 points for a line chart
-                 fig = px.line(df_mood, x='date', y='mood_value',
+                # Indentation level 4 (inside 'if len >= 2')
+                fig = px.line(df_mood, x='date', y='mood_value',
                               markers=True, # Show markers on points
                               labels={'date': 'Date', 'mood_value': 'Mood Level'},
-                              # title="Mood Over Time" # Title removed, using subheader
                               )
-                 fig.update_layout(yaxis=dict(tickvals=list(mood_options.values()), ticktext=list(mood_options.keys())), # Custom Y-axis labels
-                                   xaxis_title=None, yaxis_title=None, # Cleaner axes
-                                   plot_bgcolor='rgba(0,0,0,0)', # Transparent background
-                                   paper_bgcolor='rgba(0,0,0,0)',
-                                   font_color="#e1e1e1" if st.session_state.theme == 'dark' else "#212529",
-                                   margin=dict(l=10, r=10, t=10, b=10)) # Reduce margins
-                 fig.update_traces(line=dict(color='#BE93FD' if st.session_state.theme == 'dark' else '#9370DB', width=3),
-                                   marker=dict(color='#BE93FD' if st.session_state.theme == 'dark' else '#9370DB', size=8))
-                 st.plotly_chart(fig, use_container_width=True)
+                fig.update_layout(
+                    yaxis=dict(
+                        tickvals=list(mood_options.values()),
+                        ticktext=list(mood_options.keys()),
+                        range=[0.5, 5.5] # Ensure all mood levels are visible
+                    ),
+                    xaxis_title=None, yaxis_title=None, # Cleaner axes
+                    plot_bgcolor='rgba(0,0,0,0)', # Transparent background
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font_color="#e1e1e1" if st.session_state.theme == 'dark' else "#212529",
+                    margin=dict(l=10, r=10, t=10, b=10) # Reduce margins
+                )
+                line_color = '#BE93FD' if st.session_state.theme == 'dark' else '#9370DB'
+                fig.update_traces(
+                    line=dict(color=line_color, width=3),
+                    marker=dict(color=line_color, size=8)
+                )
+                st.plotly_chart(fig, use_container_width=True)
             elif len(df_mood) == 1:
-                st.write(f"Logged '{df_mood.iloc[0]['mood_text']}' on {df_mood.iloc[0]['date'].strftime('%b %d, %H:%M')}. Need more data for a trend chart.")
+                # Indentation level 4 (inside 'elif')
+                st.info(f"Logged '{df_mood.iloc[0]['mood_text']}' on {df_mood.iloc[0]['date'].strftime('%b %d, %H:%M')}. Need more data for a trend chart.")
             else:
-                st.write("Log your mood to see trends here.")
+                # Indentation level 4 (inside 'else')
+                st.info("Log your mood to see trends here.")
 
             # Display recent raw logs
             st.markdown("---")
             st.subheader("🗒️ Latest Logs")
+            # Indentation level 3 (back inside 'if st.session_state.mood_log')
+            # Corrected loop start
             for entry in reversed(st.session_state.mood_log[-3:]): # Show newest first
-st.write(f"**{entry['date'].strftime('%b %d, %H:%M')}:** {entry['mood_text']}{ (' - *' + entry['notes'] + '*') if entry['notes'] else '' }")
-# Note the space added before '-' for better formatting ^
-
+                # Indentation level 4 (inside 'for' loop) - *** THIS IS THE FIX ***
+                st.write(f"**{entry['date'].strftime('%b %d, %H:%M')}:** {entry['mood_text']}{ (' - *' + entry['notes'] + '*') if entry['notes'] else '' }")
+# --- End of log_mood function ---
 
 def display_welcome_message():
+    # Indentation level 1
     if st.session_state.show_welcome:
         with st.container():
+            # Indentation level 2
             primary_color = '#BE93FD' if st.session_state.theme == 'dark' else '#9370DB'
             secondary_color = '#ffffff' if st.session_state.theme == 'dark' else '#343a40'
             st.markdown(
@@ -393,10 +432,12 @@ def display_welcome_message():
             # Centered Button
             col1, col2, col3 = st.columns([1, 1.5, 1]) # Adjust column ratios for centering
             with col2:
+                 # Indentation level 3
                 if st.button("✨ Let's Begin Exploring ✨", key="dismiss_welcome", use_container_width=True):
+                    # Indentation level 4
                     dismiss_welcome()
                     st.rerun()
-
+# --- End of display_welcome_message function ---
 
 # --- Main App Layout ---
 # Header aligned with Icon
@@ -404,18 +445,20 @@ col1_header, col2_header = st.columns([0.15, 0.85])
 with col1_header:
      icon(PAGE_ICON)
 with col2_header:
-    primary_color = '#BE93FD' if st.session_state.theme == 'dark' else '#9370DB'
-    st.markdown(f'<a href="https://vers3dynamics.io/" style="color: {primary_color}; text-decoration:none; font-weight: 600;"><h1>{PAGE_TITLE}</h1></a>', unsafe_allow_html=True)
+    primary_color_header = '#BE93FD' if st.session_state.theme == 'dark' else '#9370DB' # Renamed variable
+    st.markdown(f'<a href="https://vers3dynamics.io/" target="_blank" style="color: {primary_color_header}; text-decoration:none; font-weight: 600;"><h1>{PAGE_TITLE}</h1></a>', unsafe_allow_html=True)
     st.markdown(f'<h3 style="opacity: 0.9;">{APP_NAME}: {APP_TAGLINE}</h3>', unsafe_allow_html=True)
 
 st.divider() # Visual separation
 
-# Initialize Groq client (No changes needed)
+# Initialize Groq client
 try:
-    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-except KeyError:
-    st.error("🚨 GROQ_API_KEY not found in secrets. Please add it to continue.")
-    st.stop()
+    # Ensure secrets are loaded correctly, especially in cloud environments
+    groq_api_key = st.secrets.get("GROQ_API_KEY")
+    if not groq_api_key:
+        st.error("🚨 GROQ_API_KEY not found in secrets. Please add it to continue.")
+        st.stop()
+    client = Groq(api_key=groq_api_key)
 except Exception as e:
     st.error(f"⚠️ Error initializing Groq client: {e}")
     st.stop()
@@ -427,8 +470,8 @@ with st.sidebar:
     st.markdown("---")
 
     # Theme selector
-    theme = st.radio("🎨 Theme", ["🌞 Light", "🌙 Dark"], index=0 if st.session_state.theme == "light" else 1, horizontal=True)
-    new_theme = "light" if theme == "🌞 Light" else "dark"
+    theme_selection = st.radio("🎨 Theme", ["🌞 Light", "🌙 Dark"], index=0 if st.session_state.theme == "light" else 1, horizontal=True, key="theme_selector")
+    new_theme = "light" if theme_selection == "🌞 Light" else "dark"
     if st.session_state.theme != new_theme:
         st.session_state.theme = new_theme
         st.rerun()
@@ -437,36 +480,45 @@ with st.sidebar:
 
     # Model selection
     st.markdown(f"<h3 style='color: {sidebar_header_color}; font-size: 1.2rem;'>🧠 AI Model</h3>", unsafe_allow_html=True)
-    model_option = st.selectbox("Select Model", options=list(models.keys()), format_func=lambda x: f"{models[x]['name']}", index=DEFAULT_MODEL_INDEX, label_visibility="collapsed")
+    # Use the actual selected model from session state for the default index if it exists
+    current_model_index = list(models.keys()).index(st.session_state.selected_model) if st.session_state.selected_model in models else DEFAULT_MODEL_INDEX
+    model_option = st.selectbox("Select Model", options=list(models.keys()), format_func=lambda x: f"{models[x]['name']}", index=current_model_index, label_visibility="collapsed", key="model_selector")
     if st.session_state.selected_model != model_option:
         st.session_state.selected_model = model_option
         # Optionally clear history or notify user on model change if desired
+        # clear_chat_history() # Uncomment to clear chat on model change
+        # st.rerun()
 
     # Model info Expander
-    model_info = models[model_option]
+    model_info = models[st.session_state.selected_model or list(models.keys())[DEFAULT_MODEL_INDEX]] # Use selected or default
     with st.expander("ℹ️ Model Details", expanded=False):
         st.markdown(f"**Tokens:** `{model_info['tokens']}`  \n"
                     f"**Developer:** _{model_info['developer']}_  \n"
                     f"**Use Case:** {model_info['description']}")
 
     st.markdown(f"<h3 style='color: {sidebar_header_color}; font-size: 1.2rem;'>🔧 Parameters</h3>", unsafe_allow_html=True)
-    max_tokens = st.slider("Max Response Length (Tokens)", 512, model_info["tokens"], min(2048, model_info["tokens"]), 512)
-    temperature = st.slider("Creativity (Temperature)", 0.0, 1.0, 0.7, 0.1)
+    max_tokens = st.slider("Max Response Length (Tokens)", min_value=128, max_value=model_info["tokens"], value=min(2048, model_info["tokens"]), step=128, key="max_tokens_slider")
+    temperature = st.slider("Creativity (Temperature)", min_value=0.0, max_value=1.0, value=0.7, step=0.1, key="temp_slider")
 
     st.markdown("---")
 
-    if st.button("🔄 Reset Conversation", use_container_width=True): # Added icon
+    if st.button("🔄 Reset Conversation", use_container_width=True, key="reset_button"):
         clear_chat_history()
         st.rerun()
 
     # Audio Player - Enhanced Look
     st.markdown(f"<h3 style='color: {sidebar_header_color};'>🔊 Welcome Message</h3>", unsafe_allow_html=True)
     audio_filename = "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3"
-    audio_path = os.path.join(os.path.dirname(__file__), audio_filename)
+    # Robust path finding
+    current_dir_audio = os.path.dirname(os.path.abspath(__file__))
+    audio_path = os.path.join(current_dir_audio, audio_filename)
 
     if os.path.exists(audio_path):
-        audio_bytes = Path(audio_path).read_bytes()
-        st.audio(audio_bytes, format="audio/mp3")
+        try:
+            audio_bytes = Path(audio_path).read_bytes()
+            st.audio(audio_bytes, format="audio/mp3")
+        except Exception as e:
+            st.warning(f"Could not load audio file: {e}")
     else:
          st.warning(f"Audio file not found: {audio_filename}")
     # Removed the play button, directly embedding the player is cleaner if file exists
@@ -488,7 +540,7 @@ with st.sidebar:
         "Early help for psychosis?" # Shortened prompts
     ]
     for i, prompt in enumerate(quick_prompts):
-        if st.button(f"💬 {prompt}", key=f"qp_{i}", use_container_width=True): # Added icon
+        if st.button(f"💬 {prompt}", key=f"qp_{i}", use_container_width=True):
             use_quick_prompt(prompt)
             st.rerun()
 
@@ -500,25 +552,42 @@ else:
     if os.path.exists(IMAGE_PATH):
         col_img1, col_img2, col_img3 = st.columns([1, 1, 1])
         with col_img2:
-            st.image(IMAGE_PATH, caption=IMAGE_CAPTION, width=300)
+             # Check image path again, ensure it's relative to the script or use absolute path
+            image_display_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), IMAGE_PATH)
+            if os.path.exists(image_display_path):
+                st.image(image_display_path, caption=IMAGE_CAPTION, width=300)
+            else:
+                 st.warning(f"Image not found at: {image_display_path}")
+
         st.markdown("<br>", unsafe_allow_html=True) # Add some space
 
     # Chat history display
-    for message in st.session_state.messages[1:]:  # Skip system prompt
-        avatar_icon = '💬' if message["role"] == "assistant" else '👤' # Different avatars
-        with st.chat_message(message["role"], avatar=avatar_icon):
-            st.markdown(message["content"], unsafe_allow_html=True) # Allow basic HTML in responses if needed
+    # Filter out the system prompt for display
+    display_messages = [msg for msg in st.session_state.messages if msg.get("role") != "system"]
+    for message in display_messages:
+        role = message.get("role", "unknown")
+        avatar_icon = '💬' if role == "assistant" else '👤'
+        with st.chat_message(role, avatar=avatar_icon):
+            st.markdown(message.get("content", ""), unsafe_allow_html=True) # Allow basic HTML
 
     # --- Chat Input and Response Handling ---
     def generate_chat_responses(chat_completion):
-        for chunk in chat_completion:
-            if chunk.choices[0].delta.content:
-                yield chunk.choices[0].delta.content
+        """Yields response chunks"""
+        try:
+            for chunk in chat_completion:
+                if chunk.choices and chunk.choices[0].delta and chunk.choices[0].delta.content:
+                    yield chunk.choices[0].delta.content
+        except Exception as e:
+            st.error(f"Error during response streaming: {e}")
+            yield " An error occurred while generating the response. "
 
-    user_input = st.chat_input("Ask Mnemosyne anything about mental wellness...") # More descriptive placeholder
+
+    user_input = st.chat_input("Ask Mnemosyne anything about mental wellness...", key="chat_input")
     if user_input:
         st.session_state.chat_counter += 1
         st.session_state.messages.append({"role": "user", "content": user_input})
+
+        # Display user message immediately
         with st.chat_message("user", avatar='👤'):
             st.markdown(user_input)
 
@@ -534,19 +603,32 @@ else:
 
             # Check for Easter egg trigger
             if "amanda" in user_input.lower() or "poem" in user_input.lower():
-                 # Add a slight delay for effect
+                # Add a slight delay for effect
                 time.sleep(1)
                 full_response = f"Ah, a whisper on the wind... perhaps this is what you seek? 💌\n\n---\n\n{POEM}"
-                placeholder.markdown(full_response)
+                placeholder.markdown(full_response, unsafe_allow_html=True)
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
             else:
                 # Normal response generation
                 try:
-                    # Filter messages to prevent sending system prompt if not desired by API, or keep it
-                    messages_to_send = st.session_state.messages
+                    # Use the selected model from session state
+                    selected_model_key = st.session_state.selected_model or list(models.keys())[DEFAULT_MODEL_INDEX]
+
+                    # Ensure messages being sent are in the correct format
+                    messages_to_send = []
+                    for msg in st.session_state.messages:
+                         if msg.get("role") and msg.get("content"):
+                              messages_to_send.append({"role": msg["role"], "content": msg["content"]})
+                         else:
+                              st.warning(f"Skipping invalid message format: {msg}")
+
+                    if not messages_to_send:
+                         st.error("No valid messages to send to the model.")
+                         st.stop()
+
 
                     chat_completion = client.chat.completions.create(
-                        model=model_option,
+                        model=selected_model_key,
                         messages=messages_to_send,
                         max_tokens=max_tokens,
                         temperature=temperature,
@@ -554,26 +636,29 @@ else:
                     )
 
                     # Stream response with visual indicator updates
-                    indicator_counter = 0
-                    for chunk in generate_chat_responses(chat_completion):
+                    response_stream = generate_chat_responses(chat_completion)
+                    for chunk in response_stream:
                         full_response += chunk
-                        indicator_counter += 1
                         # Update placeholder with text and a subtle typing indicator
-                        current_indicator = "..." if indicator_counter % 3 == 0 else (".." if indicator_counter % 3 == 1 else ".")
-                        placeholder.markdown(full_response + current_indicator, unsafe_allow_html=True)
-                         # Optional: Small delay for smoother streaming appearance
-                        time.sleep(0.01)
+                        placeholder.markdown(full_response + "▌", unsafe_allow_html=True) # Use a block cursor indicator
+                        # Optional: Small delay for smoother streaming appearance
+                        # time.sleep(0.01)
 
                     # Final response without indicator
                     placeholder.markdown(full_response, unsafe_allow_html=True)
 
                 except Exception as e:
-                    st.error(f"An error occurred: {e}")
+                    st.error(f"An error occurred while communicating with the AI: {e}")
                     full_response = "I seem to have encountered a hiccup. Could you please try rephrasing or asking again? 🙏"
-                    placeholder.markdown(full_response)
+                    placeholder.markdown(full_response) # Display error in placeholder
 
-                # Add final response to history
-                st.session_state.messages.append({"role": "assistant", "content": full_response})
+                # Add final assistant response to history ONLY IF IT'S NOT THE EASTER EGG
+                if not ("amanda" in user_input.lower() or "poem" in user_input.lower()):
+                     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+        # Rerun at the end of processing a user message to update the display cleanly
+        st.rerun()
+
 
 # --- Footer ---
 st.divider()
@@ -582,8 +667,8 @@ link_color = '#BE93FD' if st.session_state.theme == 'dark' else '#8A2BE2'
 st.markdown(
     f"""
     <div style='text-align: center; margin-top: 1rem; color: {footer_color}; opacity: 0.8; font-size: 0.9rem;'>
-        © {time.strftime('%Y')} Vers3Dynamics • 
-        <a href="https://woodyard.dappling.network/" target="_blank" style="color: {link_color};">Privacy Policy</a> • 
+        © {time.strftime('%Y')} Vers3Dynamics •
+        <a href="https://woodyard.dappling.network/" target="_blank" style="color: {link_color};">Privacy Policy</a> •
         <a href="https://vers3dynamics.io/titanic" target="_blank" style="color: {link_color};">Terms of Service</a> <br>
         <span style="font-size: 0.8rem;">Mnemosyne is an AI companion and does not provide medical advice. Please consult a qualified professional for diagnosis or treatment.</span>
     </div>
