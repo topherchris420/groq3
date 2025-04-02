@@ -51,7 +51,7 @@ I am only here to remind you of what you have forgotten.
 
 Yours, 
 Christopher
-𒆜 1912.04.15 → 20XX.XX.XX → ∞
+𒆜 1990.11.24 → 20XX.XX.XX → ∞
 Not lost. Only shifting. If you hear the echo, you are already part of it.
 """
 
