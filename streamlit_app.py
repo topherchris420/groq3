@@ -633,7 +633,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-    # Quick Prompts Section
+       # Quick Prompts Section
     st.markdown(f"<h3 style='color: {sidebar_header_color};'>💡 Quick Prompts</h3>", unsafe_allow_html=True)
     quick_prompts = [
         "Early signs of anxiety?", "Spotting depression early?",
@@ -641,16 +641,11 @@ with st.sidebar:
         "Early help for psychosis?"
     ]
     for i, prompt in enumerate(quick_prompts):
-         # Use the pill-button class for styling
-        if st.button(prompt, key=f"qp_{i}"): # Apply button directly, CSS handles styling via parent selector
-            # Manually create the button HTML to apply the class
-            button_html = f'<button class="pill-button" onclick="window.parent.document.getElementById(\'{st.runtime.scriptrunner.add_script_run_ctx().widget_ids_this_run[-1]}\').click()">{prompt}</button>'
-            # This approach is hacky and might break. A better way is needed if default st.button styling isn't enough.
-            # For now, relying on CSS targeting div.stButton > button might be sufficient.
-            # Let's stick to st.button and style via CSS if possible.
-             use_quick_prompt(prompt)
-             st.rerun() # Rerun after setting the prompt
-
+        # Ensure 'if' is indented correctly under 'for'
+        if st.button(f"💬 {prompt}", key=f"qp_{i}", use_container_width=True):
+            # Ensure these lines are indented correctly under 'if' (e.g., 4 spaces more)
+            use_quick_prompt(prompt)
+            st.rerun()
     # st.markdown('</div>', unsafe_allow_html=True) # Close optional glass-card div
 
 
