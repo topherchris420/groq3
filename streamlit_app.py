@@ -367,7 +367,8 @@ def log_mood():
             st.markdown("---")
             st.subheader("🗒️ Latest Logs")
             for entry in reversed(st.session_state.mood_log[-3:]): # Show newest first
-                 st.write(f"**{entry['date'].strftime('%b %d, %H:%M')}:** {entry['mood_text']} {f'- *{entry["notes"]}*' if entry['notes'] else ''}")
+st.write(f"**{entry['date'].strftime('%b %d, %H:%M')}:** {entry['mood_text']}{ (' - *' + entry['notes'] + '*') if entry['notes'] else '' }")
+# Note the space added before '-' for better formatting ^
 
 
 def display_welcome_message():
