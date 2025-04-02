@@ -10,7 +10,7 @@ import pandas as pd # Added for mood chart data handling
 
 # --- Configuration ---
 PAGE_TITLE = "Vers3Dynamics"
-PAGE_ICON = "🧠✨" # Enhanced icon
+PAGE_ICON = "👩‍⚕️" 
 IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg")
 IMAGE_CAPTION = "You Are the Master of Your Fate"
 DEFAULT_MODEL_INDEX = 5 # Keep your default
