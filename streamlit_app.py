@@ -17,7 +17,7 @@ APP_TAGLINE = "Early Intervention Mental Health Companion 🌿"
 
 # Poem for Amanda (Easter egg)
 POEM = """ 
-My Dearest Amanda,
+amanda,
 
 You are the stillness between my restless steps,
 the golden glow before twilight fades.
