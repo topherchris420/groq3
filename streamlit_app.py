@@ -425,7 +425,7 @@ st.markdown(
     f"""
     <div style='text-align: center; margin-top: 2rem; color: {'#ffffff' if st.session_state.theme == 'dark' else '#000000'}; opacity: 0.8;'>
         © 2025 Vers3Dynamics • 
-        <a href="https://woodyard.dappling.network/" style="color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};">Privacy</a> • 
+        <a href="https://arlingtonva.vercel.app/" style="color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};">Privacy</a> • 
         <a href="https://vers3dynamics.vercel.app/" style="color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};">Terms</a>
     </div>
     """,
