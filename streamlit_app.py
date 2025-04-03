@@ -260,7 +260,7 @@ models = {
 
 # --- Mood Tracking Feature ---
 def log_mood():
-    with st.sidebar.expander("🩺 Mood Tracker", expanded=False):
+    with st.sidebar.expander("🩺 Chill Tracker", expanded=False):
         mood = st.selectbox("How are you feeling today?", ["Great", "Good", "Okay", "Low", "Very Low"])
         notes = st.text_area("Any notes? (e.g., sleep, stress)", height=100)
         if st.button("Log Mood"):
