@@ -248,7 +248,6 @@ def use_quick_prompt(prompt):
     st.session_state.chat_counter += 1
     return prompt
 
-# --- Model Definitions ---
 models = {
     "llama-3.3-70b-versatile": {"name": "Llama-3.3-70b-Versatile", "tokens": 8192, "developer": "Meta", "description": "Latest Llama model for versatile, detailed medical responses"},
     "Llama3-8b-8192": {"name": "Llama3-8b-8192", "tokens": 8192, "developer": "Meta", "description": "Efficient Llama model for fast, accurate medical insights"},
@@ -256,6 +255,16 @@ models = {
     "mixtral-8x22b-instruct": {"name": "Mixtral-8x22b-Instruct", "tokens": 65536, "developer": "Mistral", "description": "Advanced Mixtral for complex medical analysis"},
     "gemma-2-27b-it": {"name": "Gemma-2-27b-IT", "tokens": 8192, "developer": "Google", "description": "Updated Gemma model for general-purpose medical dialogue"},
     "llama-3.2-1b-preview": {"name": "Llama-3.2-1b-Preview", "tokens": 4096, "developer": "Meta", "description": "Lightweight Llama model for quick responses and basic assistance"},
+
+    # --- Add the new model here ---
+    "meta-llama/llama-4-scout-17b-16e-instruct": {
+        "name": "Llama-4-Scout-17b-Instruct",  # User-friendly name
+        "tokens": 16384,                      # Context window size (16k based on '16e')
+        "developer": "Meta",                  # Developer
+        "description": "Experimental Llama 4 Scout model by Meta for instruction following." # Brief description
+    },
+
+
 }
 
 # --- Mood Tracking Feature ---
