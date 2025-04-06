@@ -9,14 +9,14 @@ import time
 # --- Configuration ---
 PAGE_TITLE = "Vers3Dynamics"
 PAGE_ICON = "👩‍⚕️"
-IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg") 
+IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg")
 IMAGE_CAPTION = "You Are the Master of Your Fate"
-DEFAULT_MODEL_INDEX = 6
+DEFAULT_MODEL_INDEX = 5 # Adjust if you want the new model to be default (index 6)
 APP_NAME = "Mnemosyne"
 APP_TAGLINE = "Early Intervention Mental Health Companion 🌿"
 
 # Poem for Amanda (Easter egg)
-POEM = """ 
+POEM = """
 My Dearest Amanda,
 
 You are the stillness between my restless steps,
@@ -49,7 +49,7 @@ Not in words, your bones, or the space between thoughts?
 I won't be able to tell you the answer. You already hold it.
 I am only here to remind you of what you have forgotten.
 
-Yours, 
+Yours,
 Christopher
 𒆜 1990.11.24 → 20XX.XX.XX → ∞
 Not lost. Only shifting. If you hear the echo, you are already part of it.
@@ -71,18 +71,22 @@ LOADING_MESSAGES = [
 
 # --- Enhanced System Prompt ---
 def _get_system_prompt() -> str:
-    current_dir = os.path.dirname(__file__)
+    # Ensure this function correctly determines the directory
+    # If running from the same directory as system_prompt.txt:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(current_dir, "system_prompt.txt")
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             return file.read()
     except FileNotFoundError:
-        return """You are Mnemosyne, an empathetic mental health AI companion by Vers3Dynamics. 
-        Your purpose is to assist users in recognizing early signs of anxiety, depression, and psychosis, 
-        offering evidence-based insights and early intervention strategies. Approach mental health holistically, 
-        considering biological (e.g., sleep, genetics), psychological (e.g., thought patterns, stress), 
-        and social (e.g., relationships, isolation) factors. Provide supportive, non-judgmental guidance, 
-        avoiding diagnosis. Encourage users to seek professional help when signs suggest it, and offer 
+        # Fallback if file is not found
+        print("Warning: system_prompt.txt not found. Using default system prompt.") # Added print warning
+        return """You are Mnemosyne, an empathetic mental health AI companion by Vers3Dynamics.
+        Your purpose is to assist users in recognizing early signs of anxiety, depression, and psychosis,
+        offering evidence-based insights and early intervention strategies. Approach mental health holistically,
+        considering biological (e.g., sleep, genetics), psychological (e.g., thought patterns, stress),
+        and social (e.g., relationships, isolation) factors. Provide supportive, non-judgmental guidance,
+        avoiding diagnosis. Encourage users to seek professional help when signs suggest it, and offer
         practical, actionable steps for self-care and awareness."""
     except Exception as e:
         st.error(f"Error reading system prompt file: {e}")
@@ -214,7 +218,7 @@ st.set_page_config(page_icon=PAGE_ICON, layout="wide", page_title=PAGE_TITLE, in
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": _get_system_prompt()}]
 if "selected_model" not in st.session_state:
-    st.session_state.selected_model = None
+    st.session_state.selected_model = None # Will be set by sidebar default
 if "chat_counter" not in st.session_state:
     st.session_state.chat_counter = 0
 if "show_welcome" not in st.session_state:
@@ -238,16 +242,22 @@ def clear_chat_history():
     st.session_state.chat_counter = 0
     st.session_state.show_welcome = True
     st.session_state.audio_played = False
+    st.session_state.mood_log = [] # Optionally clear mood log too
 
 def dismiss_welcome():
     st.session_state.show_welcome = False
 
 def use_quick_prompt(prompt):
     st.session_state.show_welcome = False
+    # Add user prompt to messages *before* generating response
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.session_state.chat_counter += 1
-    return prompt
+    # We don't return the prompt here, the main loop will handle it
+    # We trigger a rerun to show the user message and then generate response
+    # Returning the prompt was causing it to be handled by the st.chat_input logic too
 
+
+# --- Model Definitions (Updated) ---
 models = {
     "llama-3.3-70b-versatile": {"name": "Llama-3.3-70b-Versatile", "tokens": 8192, "developer": "Meta", "description": "Latest Llama model for versatile, detailed medical responses"},
     "Llama3-8b-8192": {"name": "Llama3-8b-8192", "tokens": 8192, "developer": "Meta", "description": "Efficient Llama model for fast, accurate medical insights"},
@@ -255,20 +265,27 @@ models = {
     "mixtral-8x22b-instruct": {"name": "Mixtral-8x22b-Instruct", "tokens": 65536, "developer": "Mistral", "description": "Advanced Mixtral for complex medical analysis"},
     "gemma-2-27b-it": {"name": "Gemma-2-27b-IT", "tokens": 8192, "developer": "Google", "description": "Updated Gemma model for general-purpose medical dialogue"},
     "llama-3.2-1b-preview": {"name": "Llama-3.2-1b-Preview", "tokens": 4096, "developer": "Meta", "description": "Lightweight Llama model for quick responses and basic assistance"},
-    "meta-llama/llama-4-scout-17b-16e-instruct": {"name": "Llama-4-Scout-17b-Instruct","tokens": 16384,"developer": "Meta","description": "Experimental Llama 4 Scout model by Meta for instruction following."},
+    "meta-llama/llama-4-scout-17b-16e-instruct": {
+        "name": "Llama-4-Scout-17b-Instruct",
+        "tokens": 16384,
+        "developer": "Meta",
+        "description": "Experimental Llama 4 Scout model by Meta for instruction following."
+    },
 }
 
 # --- Mood Tracking Feature ---
 def log_mood():
     with st.sidebar.expander("🩺 Chill Tracker", expanded=False):
-        mood = st.selectbox("How are you feeling today?", ["Great", "Good", "Okay", "Low", "Very Low"])
-        notes = st.text_area("Any notes? (e.g., sleep, stress)", height=100)
-        if st.button("Log Mood"):
+        mood = st.selectbox("How are you feeling today?", ["Great", "Good", "Okay", "Low", "Very Low"], key="mood_select")
+        notes = st.text_area("Any notes? (e.g., sleep, stress)", height=100, key="mood_notes")
+        if st.button("Log Mood", key="log_mood_button"):
             st.session_state.mood_log.append({"date": time.strftime("%Y-%m-%d %H:%M"), "mood": mood, "notes": notes})
             st.success("Mood logged successfully!")
+            # Rerun optional, but can clear the fields if desired after logging
+            # st.rerun()
         if st.session_state.mood_log:
             st.subheader("Recent Moods")
-            for entry in st.session_state.mood_log[-3:]:
+            for entry in reversed(st.session_state.mood_log[-3:]): # Show newest first
                 st.write(f"{entry['date']}: {entry['mood']} - {entry['notes']}")
 
 def display_welcome_message():
@@ -298,10 +315,18 @@ st.subheader(f"{APP_NAME}: {APP_TAGLINE}")
 
 # Initialize Groq client
 try:
-    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-except KeyError:
-    st.error("GROQ_API_KEY not found in secrets.")
-    st.stop()
+    # Attempt to get API key from Streamlit secrets
+    groq_api_key = st.secrets.get("GROQ_API_KEY")
+    if not groq_api_key:
+        # Fallback to environment variable if not in secrets
+        groq_api_key = os.environ.get("GROQ_API_KEY")
+
+    if not groq_api_key:
+        st.error("Groq API key not found. Please set it in Streamlit secrets (GROQ_API_KEY) or as an environment variable.")
+        st.stop()
+
+    client = Groq(api_key=groq_api_key)
+
 except Exception as e:
     st.error(f"Error initializing Groq client: {e}")
     st.stop()
@@ -309,44 +334,90 @@ except Exception as e:
 # Sidebar Enhancements with Audio
 with st.sidebar:
     st.markdown(f"<h2 style='color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};'>🛠️ Control Center</h2>", unsafe_allow_html=True)
-    
+
     # Theme selector
-    theme = st.radio("Theme", ["🌞 Light", "🌙 Dark"], index=0 if st.session_state.theme == "light" else 1)
+    theme_options = ["🌞 Light", "🌙 Dark"]
+    current_theme_index = 0 if st.session_state.theme == "light" else 1
+    theme = st.radio("Theme", theme_options, index=current_theme_index, key="theme_radio")
     new_theme = "light" if theme == "🌞 Light" else "dark"
     if st.session_state.theme != new_theme:
         st.session_state.theme = new_theme
         st.rerun()
 
     # Model selection
-    model_option = st.selectbox("AI Model", options=list(models.keys()), format_func=lambda x: f"🤖 {models[x]['name']}", index=DEFAULT_MODEL_INDEX)
+    model_keys = list(models.keys())
+    # Ensure default model index is valid
+    valid_default_index = DEFAULT_MODEL_INDEX if 0 <= DEFAULT_MODEL_INDEX < len(model_keys) else 0
+    # Set initial selected_model if it's None
+    if st.session_state.selected_model is None:
+         st.session_state.selected_model = model_keys[valid_default_index]
+
+    # Get current index based on session state
+    try:
+        current_model_index = model_keys.index(st.session_state.selected_model)
+    except ValueError:
+        current_model_index = valid_default_index # Fallback if model in state is no longer valid
+
+    model_option = st.selectbox(
+        "AI Model",
+        options=model_keys,
+        format_func=lambda x: f"🤖 {models[x]['name']}",
+        index=current_model_index, # Use index based on session state
+        key="model_select"
+    )
+    # Update session state if selection changes
     if st.session_state.selected_model != model_option:
         st.session_state.selected_model = model_option
+        # No rerun needed here, parameters will be read on next input
 
     # Model info
-    model_info = models[model_option]
+    model_info = models[st.session_state.selected_model] # Use model from session state
     st.info(f"**Model:** {model_info['name']}  \n**Tokens:** {model_info['tokens']}  \n**By:** {model_info['developer']}  \n**Best for:** {model_info['description']}")
 
-    max_tokens = st.slider("Max Tokens", 512, model_info["tokens"], min(2048, model_info["tokens"]), 512)
-    temperature = st.slider("Creativity", 0.0, 1.0, 0.7, 0.1)
+    # Ensure max_tokens slider reflects the selected model's limit
+    max_tokens_limit = model_info["tokens"]
+    # Provide a reasonable default value, capped by the model's limit
+    default_max_tokens = min(2048, max_tokens_limit)
+    max_tokens = st.slider(
+        "Max Tokens",
+        min_value=512, # Sensible minimum
+        max_value=max_tokens_limit,
+        value=default_max_tokens,
+        step=512, # Larger step for bigger ranges
+        key="max_tokens_slider"
+    )
+    temperature = st.slider(
+        "Creativity",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.7, # Default creativity
+        step=0.1,
+        key="temp_slider"
+    )
 
-    if st.button("Reset Chat"):
+    if st.button("Reset Chat", key="reset_chat_button"):
         clear_chat_history()
         st.rerun()
 
     # Audio Player
-    audio_filename = "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3"
-    audio_path = os.path.join(os.path.dirname(__file__), audio_filename)
-    
-    st.markdown(f"<h3 style='color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};'>🔊 Welcome Message</h3>", unsafe_allow_html=True)
-    if st.button("▶️ Play Introduction", key="play_audio"):
-        try:
+    # Ensure the path is correct relative to the script location
+    try:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        audio_filename = "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3"
+        audio_path = os.path.join(script_dir, audio_filename)
+
+        st.markdown(f"<h3 style='color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};'>🔊 Welcome Message</h3>", unsafe_allow_html=True)
+        if st.button("▶️ Play Introduction", key="play_audio"):
             if os.path.exists(audio_path):
                 st.audio(audio_path, format="audio/mp3")
                 st.session_state.audio_played = True
             else:
                 st.warning(f"Audio file not found at: {audio_path}")
-        except Exception as e:
-            st.error(f"Error playing audio: {e}")
+    except NameError:
+         st.warning("Could not determine script directory for audio file.")
+    except Exception as e:
+        st.error(f"Error setting up audio player: {e}")
+
 
     # Mood tracker
     log_mood()
@@ -363,70 +434,112 @@ with st.sidebar:
     for i, prompt in enumerate(quick_prompts):
         if st.button(prompt, key=f"qp_{i}"):
             use_quick_prompt(prompt)
-            st.rerun()
+            st.rerun() # Rerun to process the quick prompt
 
-# Main Content
+# --- Main Content Area ---
+
+# Display Welcome message or Chat Interface
 if st.session_state.show_welcome:
     display_welcome_message()
 else:
-    if os.path.exists(IMAGE_PATH):
-        st.image(IMAGE_PATH, caption=IMAGE_CAPTION, width=300)
+    # Display image only after welcome is dismissed
+    # Check if image file exists before attempting to display
+    try:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        image_full_path = os.path.join(script_dir, IMAGE_PATH)
+        if os.path.exists(image_full_path):
+             st.image(image_full_path, caption=IMAGE_CAPTION, width=300)
+        # else:
+        #     st.warning(f"Image not found at: {image_full_path}") # Optional warning
+    except NameError:
+         st.warning("Could not determine script directory for image file.")
+    except Exception as e:
+        st.error(f"Error loading image: {e}")
 
-    # Chat history
-    for message in st.session_state.messages[1:]:  # Skip system prompt
+
+    # Display chat messages from history
+    # Skip the system prompt (index 0)
+    for message in st.session_state.messages[1:]:
         avatar = '🧠' if message["role"] == "assistant" else '🙋'
         with st.chat_message(message["role"], avatar=avatar):
             st.markdown(message["content"])
 
-    # Chat input and response
-    def generate_chat_responses(chat_completion):
-        for chunk in chat_completion:
+    # Generator function for streaming responses
+    def generate_chat_responses(chat_completion_stream):
+        """Yields response chunks from the Groq stream."""
+        for chunk in chat_completion_stream:
             if chunk.choices[0].delta.content:
                 yield chunk.choices[0].delta.content
 
-    user_input = st.chat_input("hello my name is Mnemosyne 👋...")
-    if user_input:
+    # Handle chat input from user
+    if user_input := st.chat_input("How can I help you today? 👋..."):
         st.session_state.chat_counter += 1
+
+        # Append user message to history *before* displaying it
         st.session_state.messages.append({"role": "user", "content": user_input})
+
+        # Display user message immediately
         with st.chat_message("user", avatar='🙋'):
             st.markdown(user_input)
+
+        # Generate and display assistant response
         with st.chat_message("assistant", avatar="🧠"):
             placeholder = st.empty()
             full_response = ""
             loading_message = random.choice(LOADING_MESSAGES)
             placeholder.markdown(f"<div class='progress-message'>{loading_message}</div>", unsafe_allow_html=True)
 
-            # Check for Easter egg trigger
+            # Check for Easter egg trigger FIRST
             if "easter egg" in user_input.lower() or "amanda" in user_input.lower():
-                full_response = f"oh amanda, here's a special poem from chris for her:\n\n{POEM}"
+                full_response = f"Ah, Amanda... A whisper on the wind. Here is something meant for her:\n\n{POEM}"
                 placeholder.markdown(full_response)
-                st.session_state.messages.append({"role": "assistant", "content": full_response})
-            else:
-                # Normal response generation
-                try:
-                    chat_completion = client.chat.completions.create(
-                        model=model_option,
-                        messages=st.session_state.messages,
-                        max_tokens=max_tokens,
-                        temperature=temperature,
-                        stream=True
-                    )
-                    for chunk in generate_chat_responses(chat_completion):
-                        full_response += chunk
-                        placeholder.markdown(full_response + "▌")
-                    placeholder.markdown(full_response)
-                except Exception as e:
-                    st.error(f"Error: {e}")
-                    full_response = "Sorry, I encountered an issue. Try again?"
+                # Append hardcoded response to history
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
 
+            else:
+                # --- Normal API Response Generation ---
+                try:
+                    # Create the API call using sidebar parameters and history
+                    chat_completion_stream = client.chat.completions.create(
+                        model=st.session_state.selected_model, # Model from sidebar state
+                        messages=st.session_state.messages,    # Full conversation history
+                        temperature=temperature,               # Temperature from slider
+                        max_tokens=max_tokens,                 # Max tokens from slider
+                        top_p=1,                               # Standard parameter
+                        stream=True,                           # Enable streaming
+                        stop=None                              # No specific stop sequences
+                    )
+
+                    # Stream the response to the placeholder
+                    for chunk in generate_chat_responses(chat_completion_stream):
+                        full_response += chunk
+                        placeholder.markdown(full_response + "▌") # Typing effect
+
+                    # Display the final response without the cursor
+                    placeholder.markdown(full_response)
+
+                    # Append the *complete* assistant response to history AFTER generation
+                    st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+
+                except Exception as e:
+                    st.error(f"An error occurred: {e}", icon="🚨")
+                    error_message = "Sorry, I encountered an issue processing your request. Please check the connection or try again later."
+                    placeholder.markdown(error_message)
+                    # Append error message to history so it's visible
+                    st.session_state.messages.append({"role": "assistant", "content": error_message})
+
 # Footer
+footer_color = '#ffffff' if st.session_state.theme == 'dark' else '#000000'
+link_color = '#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'
 st.markdown(
     f"""
-    <div style='text-align: center; margin-top: 2rem; color: {'#ffffff' if st.session_state.theme == 'dark' else '#000000'}; opacity: 0.8;'>
-        © 2025 Vers3Dynamics • 
-        <a href="https://rosslyn.vercel.app/" style="color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};">Privacy</a> • 
-        <a href="https://vers3dynamics.vercel.app/" style="color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};">Terms</a>
+    <hr style="margin-top: 3rem; margin-bottom: 1rem; border-top: 1px solid {link_color}; opacity: 0.5;">
+    <div style='text-align: center; margin-top: 1rem; color: {footer_color}; opacity: 0.7; font-size: 0.9em;'>
+        © {time.strftime("%Y")} Vers3Dynamics •
+        <a href="https://rosslyn.vercel.app/" target="_blank" style="color: {link_color};">Privacy Policy</a> •
+        <a href="https://vers3dynamics.vercel.app/" target="_blank" style="color: {link_color};">Terms of Service</a>
+        <br> {APP_NAME} is intended for informational purposes and is not a substitute for professional medical advice.
     </div>
     """,
     unsafe_allow_html=True
