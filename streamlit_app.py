@@ -11,7 +11,7 @@ PAGE_TITLE = "Vers3Dynamics"
 PAGE_ICON = "👩‍⚕️"
 IMAGE_PATH = os.path.join("images", "image_fx_ (2).jpg")
 IMAGE_CAPTION = "You Are the Master of Your Fate"
-DEFAULT_MODEL_INDEX = 5 # Adjust if you want the new model to be default (index 6)
+DEFAULT_MODEL_INDEX = 6 # Adjust if you want the new model to be default (index 6)
 APP_NAME = "Mnemosyne"
 APP_TAGLINE = "Early Intervention Mental Health Companion 🌿"
 
