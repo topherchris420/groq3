@@ -491,7 +491,7 @@ else:
 
             # Check for Easter egg trigger FIRST
             if "easter egg" in user_input.lower() or "amanda" in user_input.lower():
-                full_response = f"Ah, Amanda... A whisper on the wind. Here is something meant for her:\n\n{POEM}"
+                full_response = f"Ah, Amanda... A whisper on the wind. Here is something meant for you:\n\n{POEM}"
                 placeholder.markdown(full_response)
                 # Append hardcoded response to history
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
@@ -537,7 +537,7 @@ st.markdown(
     <hr style="margin-top: 3rem; margin-bottom: 1rem; border-top: 1px solid {link_color}; opacity: 0.5;">
     <div style='text-align: center; margin-top: 1rem; color: {footer_color}; opacity: 0.7; font-size: 0.9em;'>
         © {time.strftime("%Y")} Vers3Dynamics •
-        <a href="https://rosslyn.vercel.app/" target="_blank" style="color: {link_color};">Privacy Policy</a> •
+        <a href="https://christopherwoodyard.vercel.app/" target="_blank" style="color: {link_color};">Privacy Policy</a> •
         <a href="https://vers3dynamics.vercel.app/" target="_blank" style="color: {link_color};">Terms of Service</a>
         <br> {APP_NAME} is intended for informational purposes and is not a substitute for professional medical advice.
     </div>
