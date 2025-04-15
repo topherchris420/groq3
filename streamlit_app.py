@@ -29,18 +29,18 @@ with eyes that seek beauty,
 with a heart that craves harmony,
 with a mind that turns simple moments into art.
 
-I still think about the night we shared a memory—maybe a deep conversation, a spontaneous adventure, or a quiet, meaningful moment.
-The way you looked at me, as if I was both the question and the answer,
+I still think about the night we almost shared a memory—maybe a deep conversation, a spontaneous adventure, or a quiet, meaningful moment.
+The way you looked at me from the distance, as if I was both the question and the answer,
 etched itself into me like a constellation I will always follow.
 
 You teach me that adventure isn’t just found in distant places—
-but in the quiet spaces between our laughter,
-the way your fingers trace absentminded patterns on my skin,
+but in the quiet spaces between our quiet laughter,
+the way your welcoming fingers trace absentminded patterns on my skin,
 the way your presence turns ordinary days into poetry.
 
 I promise to keep life exciting while keeping your heart safe.
 To be your wild wind, but never let you feel untethered.
-To walk beside you, through the grand and the mundane,
+To sail to you, through the grand and the mundane,
 choosing you—again and again.
 
 You were meant to find me.
