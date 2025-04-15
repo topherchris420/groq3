@@ -15,9 +15,9 @@ DEFAULT_MODEL_INDEX = 6 # Adjust if you want the new model to be default (index 
 APP_NAME = "Mnemosyne"
 APP_TAGLINE = "Early Intervention Mental Health Companion 🌿"
 
-# Poem for Amanda (Easter egg)
+# Poem for You (Easter egg)
 POEM = """
-My Dearest Amanda,
+Pier 59,
 
 You are the stillness between my restless steps,
 the golden glow before twilight fades.
@@ -490,8 +490,8 @@ else:
             placeholder.markdown(f"<div class='progress-message'>{loading_message}</div>", unsafe_allow_html=True)
 
             # Check for Easter egg trigger FIRST
-            if "easter egg" in user_input.lower() or "amanda" in user_input.lower():
-                full_response = f"Ah, Amanda... A whisper on the wind. Here is something meant for you:\n\n{POEM}"
+            if "easter egg" in user_input.lower() or "pier 59" in user_input.lower():
+                full_response = f"Ah, pier 59... A whisper on the wind. Here is something meant for you:\n\n{POEM}"
                 placeholder.markdown(full_response)
                 # Append hardcoded response to history
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
