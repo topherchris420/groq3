@@ -20,23 +20,23 @@ POEM = """
 Pier 59,
 
 You are the stillness between my restless steps,
-the golden glow before twilight fades.
+The golden glow before twilight fades.
 Where I race toward horizons unknown,
-you are the balance that brings me home.
+You are the balance that brings me home.
 
 I admire the way you see the world—
-with eyes that seek beauty,
-with a heart that craves harmony,
-with a mind that turns simple moments into art.
+With eyes that seek beauty,
+With a heart that craves harmony,
+With a mind that turns simple moments into art.
 
 I still think about the night we almost shared a memory—maybe a deep conversation, a spontaneous adventure, or a quiet, meaningful moment.
-The way you looked at me from the distance, as if I was both the question and the answer,
+The way you looked at me from a distance, as if I were both the question and the answer,
 etched itself into me like a constellation I will always follow.
 
 You teach me that adventure isn’t just found in distant places—
-but in the quiet spaces between our quiet laughter,
-the way your welcoming fingers trace absentminded patterns on my skin,
-the way your presence turns ordinary days into poetry.
+But in the quiet spaces between our quiet laughter,
+The way your welcoming fingers trace absent-minded patterns on my skin,
+The way your presence turns ordinary days into poetry.
 
 I promise to keep life exciting while keeping your heart safe.
 To be your wild wind, but never let you feel untethered.
@@ -44,7 +44,7 @@ To sail to you, through the grand and the mundane,
 choosing you—again and again.
 
 You were meant to find me.
-But tell me—before I answer, what is it that you truly seek?
+But tell me—before I answer, what do you truly seek?
 Not in words, your bones, or the space between thoughts?
 I won't be able to tell you the answer. You already hold it.
 I am only here to remind you of what you have forgotten.
