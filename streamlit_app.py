@@ -403,7 +403,7 @@ with st.sidebar:
     # Ensure the path is correct relative to the script location
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        audio_filename = "ElevenLabs_2025-02-16T06_54_38_Amanda_gen_s50_sb75_se0_b_m2.mp3"
+        audio_filename = "Intro.mp3"
         audio_path = os.path.join(script_dir, audio_filename)
 
         st.markdown(f"<h3 style='color: {'#BA55D3' if st.session_state.theme == 'dark' else '#9370DB'};'>🔊 Welcome Message</h3>", unsafe_allow_html=True)
