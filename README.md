@@ -1,8 +1,6 @@
 # Vers3Dynamics App
 
 
-![Demo App Screenshot](images/20250425_1524_Woman Morphing into Geometry_simple_compose_01jsq6fjbhevx9b8ea39ghbs9k.png)
-
 This [Streamlit]([https://streamlit.io/](https://mnemosynehealth.streamlit.app/)) app integrates with the [Groq API](https://groq.com/) to provide a chat interface where users can interact with advanced language models. It allows users to choose between two models for generating responses, enhancing the flexibility and user experience of the chat application.
 
 It is blazing FAST; try it and see! 🏎️ 💨 💨 💨
